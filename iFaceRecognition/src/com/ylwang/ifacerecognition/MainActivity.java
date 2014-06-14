@@ -1,13 +1,11 @@
 package com.ylwang.ifacerecognition;
 
-import java.util.HashMap;
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
-
+//MainActivity
 public class MainActivity extends Activity {
 	private MenuItem MenuStart;
 	private MenuItem MenuAdd;
@@ -49,7 +47,7 @@ public class MainActivity extends Activity {
 		
 		if(item==MenuStart){
 			Intent intent = new Intent();  
-	        intent.setClass(MainActivity.this, FaceRecActivity.class);  
+	        intent.setClass(MainActivity.this, FaceRecTestActivity.class);  
 	     
 	        startActivity(intent);  
 		}

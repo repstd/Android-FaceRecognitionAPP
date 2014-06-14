@@ -8,13 +8,17 @@ import org.opencv.core.Mat;
 
 import android.os.Environment;
 import android.util.Log;
-
+//Face Recognizer.The functions to recognize faces are implemented here.
 public class MyFaceRecognizer {
 	private String TAG = "MyFaceRecognizer";
 
-	public MyFaceRecognizer() {
-		mNativeObj = nativeCreativeModel("FaceRecognizer::Eigenfaces");
-		mFaceRec = new FaceRecExt(mNativeObj);
+	public MyFaceRecognizer(String recognizerType ) {
+		mRecognizerType=recognizerType;
+		mNativeEigenObj = nativeCreativeModel("FaceRecognizer::Eigenfaces");
+		mNativeFisherObj=nativeCreativeModel("FaceRecognizer::Fisherfaces");
+		mEigenFaceRec=new FaceRecExt(mNativeEigenObj);
+		mFisherFaceRec=new FaceRecExt(mNativeFisherObj);
+		mFaceRec = mEigenFaceRec;
 		mModelName = "ylwang_FaceRec.xml";
 		File FaceModel = new File(Environment.getExternalStorageDirectory(),mModelName);
 		
@@ -72,13 +76,37 @@ public class MyFaceRecognizer {
 		
 
 	}
-
+	public void setRecognizer(String recognizerType){
+		mRecognizerType=recognizerType;
+		
+/*		switch(mRecognizerType){
+		
+		case AddPersonActivity.EigenFace:
+			mFaceRec=mEigenFaceRec;
+			break;
+		case AddPersonActivity.FisherFace:
+			mFaceRec=mFisherFaceRec;
+			break;
+		default:
+			break;
+			
+		}*/
+		if(mRecognizerType.equals(AddPersonActivity.EigenFace))
+			mFaceRec=mEigenFaceRec;
+		else if(mRecognizerType.equals(AddPersonActivity.FisherFace))
+			mFaceRec=mFisherFaceRec;
+			
+		
+	}
 	public void test() {
 		Log.i(TAG, "The MyFaceRecognizer Works Normally.");
 	}
-
-	private long mNativeObj = 0;
+	private String mRecognizerType;
+	private long mNativeEigenObj = 0;
+	private long mNativeFisherObj = 0;
 	private FaceRecExt mFaceRec=null;
+	private FaceRecExt mEigenFaceRec=null;
+	private FaceRecExt mFisherFaceRec=null;
 	private String mModelName;
 	private String mModelPath;
 	private native long nativeCreativeModel(String Name);

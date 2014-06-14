@@ -57,7 +57,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/face_dect_preview"
         android:layout_marginTop="26dp"
-        android:text="To be Updated"
+        android:text="PredictResultZone"
         android:textSize="20sp"
         android:typeface="monospace" />
 

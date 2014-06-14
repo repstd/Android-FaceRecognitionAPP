@@ -47,30 +47,48 @@ containing a value of this type.
         public static final int activity_vertical_margin=0x7f060001;
     }
     public static final class drawable {
-        public static final int aea80370tw1ecdpw1lk7vj20rs0rswkq=0x7f020000;
-        public static final int header_logo=0x7f020001;
-        public static final int ic_launcher=0x7f020002;
+        public static final int bupt=0x7f020000;
+        public static final int core61=0x7f020001;
+        public static final int core62=0x7f020002;
+        public static final int core63=0x7f020003;
+        public static final int header_logo=0x7f020004;
+        public static final int ic_launcher=0x7f020005;
+        public static final int jeniffer81=0x7f020006;
+        public static final int jenny11=0x7f020007;
+        public static final int lee01=0x7f020008;
+        public static final int lee02=0x7f020009;
+        public static final int mark41=0x7f02000a;
+        public static final int mark42=0x7f02000b;
+        public static final int mike21=0x7f02000c;
+        public static final int raj31=0x7f02000d;
+        public static final int xu51=0x7f02000e;
+        public static final int xu52=0x7f02000f;
+        public static final int xu53=0x7f020010;
+        public static final int zarker71=0x7f020011;
     }
     public static final class id {
-        public static final int action_settings=0x7f05000c;
+        public static final int action_settings=0x7f05000e;
         public static final int any=0x7f050000;
         public static final int back=0x7f050001;
-        public static final int buttonSave=0x7f050009;
-        public static final int buttonTraining=0x7f050008;
-        public static final int face_dect_preview=0x7f05000a;
+        public static final int buttonSave=0x7f05000b;
+        public static final int buttonTraining=0x7f05000a;
+        public static final int face_dect_preview=0x7f05000c;
+        public static final int face_rec_test_gallery=0x7f050006;
         public static final int fd_activity_surface_view=0x7f050005;
-        public static final int fd_add_person_surface_view=0x7f050006;
+        public static final int fd_add_person_surface_view=0x7f050008;
         public static final int front=0x7f050002;
-        public static final int progressBar1=0x7f050007;
+        public static final int m_test_img_view=0x7f050007;
+        public static final int progressBar1=0x7f050009;
         public static final int textView1=0x7f050003;
-        public static final int text_predict_res=0x7f05000b;
+        public static final int text_predict_res=0x7f05000d;
         public static final int username=0x7f050004;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
         public static final int add_start_dialog=0x7f030001;
         public static final int face_detect_surface_view=0x7f030002;
-        public static final int person_add_surface_view=0x7f030003;
+        public static final int face_detect_test_surface_view=0x7f030003;
+        public static final int person_add_surface_view=0x7f030004;
     }
     public static final class menu {
         public static final int main=0x7f090000;
@@ -115,6 +133,8 @@ containing a value of this type.
         public static final int menu_add_start=0x7f070006;
         public static final int menu_add_stop=0x7f070009;
         public static final int menu_main_add_person=0x7f070005;
+        public static final int menu_main_recognizer_eigen=0x7f07000d;
+        public static final int menu_main_recognizer_fisher=0x7f07000e;
         public static final int menu_main_start=0x7f070004;
     }
     public static final class style {

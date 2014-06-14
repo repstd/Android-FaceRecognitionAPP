@@ -1,9 +1,9 @@
 obj/local/armeabi/objs/iFaceRecognition/iFaceRecognition.o: \
  jni/iFaceRecognition.cpp \
  D:/MyDocument/CS_Related/android/android-ndk-r8e-windows-x86/android-ndk-r8e/sources/cxx-stl/gnu-libstdc++/4.6/include/vector \
- jni/com_ylwang_ifacerecognition_DetectionBasedTracker.h \
- D:/MyDocument/CS_Related/android/android-ndk-r8e-windows-x86/android-ndk-r8e/platforms/android-8/arch-arm/usr/include/jni.h \
  jni/com_ylwang_ifacerecognition_MyFaceRecognizer.h \
+ D:/MyDocument/CS_Related/android/android-ndk-r8e-windows-x86/android-ndk-r8e/platforms/android-8/arch-arm/usr/include/jni.h \
+ jni/com_ylwang_ifacerecognition_MyFaceDetector.h \
  jni/RecogLib/ImageUtils.h ../OpenCVSDK/native/jni/include/opencv/cv.h \
  ../OpenCVSDK/native/jni/include/opencv2/core/core_c.h \
  ../OpenCVSDK/native/jni/include/opencv2/core/types_c.h \
@@ -134,11 +134,11 @@ obj/local/armeabi/objs/iFaceRecognition/iFaceRecognition.o: \
 
 D:/MyDocument/CS_Related/android/android-ndk-r8e-windows-x86/android-ndk-r8e/sources/cxx-stl/gnu-libstdc++/4.6/include/vector:
 
-jni/com_ylwang_ifacerecognition_DetectionBasedTracker.h:
+jni/com_ylwang_ifacerecognition_MyFaceRecognizer.h:
 
 D:/MyDocument/CS_Related/android/android-ndk-r8e-windows-x86/android-ndk-r8e/platforms/android-8/arch-arm/usr/include/jni.h:
 
-jni/com_ylwang_ifacerecognition_MyFaceRecognizer.h:
+jni/com_ylwang_ifacerecognition_MyFaceDetector.h:
 
 jni/RecogLib/ImageUtils.h:
 

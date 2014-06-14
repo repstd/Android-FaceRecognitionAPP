@@ -32,7 +32,7 @@ import android.view.WindowManager;
 
 public class FaceRecActivity extends Activity implements CvCameraViewListener2 {
 
-    private static final String    TAG                 = "OCVSample::Activity";
+    private static final String    TAG                 = "iFaceRecognizer::Activity";
     private static final Scalar    FACE_RECT_COLOR     = new Scalar(0, 255, 0, 255);
     public static final int        JAVA_DETECTOR       = 0;
     public static final int        NATIVE_DETECTOR     = 1;
@@ -45,7 +45,7 @@ public class FaceRecActivity extends Activity implements CvCameraViewListener2 {
     private Mat                    mGray;
     private File                   mCascadeFile;
     private CascadeClassifier      mJavaDetector;
-    private DetectionBasedTracker  mNativeDetector;
+    private MyFaceDetector  mNativeDetector;
 
     private int                    mDetectorType       = NATIVE_DETECTOR;
     private String[]               mDetectorName;
@@ -103,7 +103,7 @@ public class FaceRecActivity extends Activity implements CvCameraViewListener2 {
                         } else
                             Log.i(TAG, "Loaded cascade classifier from " + mCascadeFile.getAbsolutePath());
 
-                        mNativeDetector = new DetectionBasedTracker(mCascadeFile.getAbsolutePath(), 0);
+                        mNativeDetector = new MyFaceDetector(mCascadeFile.getAbsolutePath(), 0,MyFaceDetector.TYPE_DetectionBasedTracker);
 
                         cascadeDir.delete();
 
@@ -143,12 +143,13 @@ public class FaceRecActivity extends Activity implements CvCameraViewListener2 {
         
         mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.fd_activity_surface_view);
         mOpenCvCameraView.setCvCameraViewListener(this);
-        mLabel=mLabelMap.size();
+       // mLabel=mLabelMap.size();
     }
 
     @Override
     public void onPause()
     {
+    	Log.i(TAG, "onPause");
         super.onPause();
         if (mOpenCvCameraView != null)
             mOpenCvCameraView.disableView();
@@ -161,6 +162,7 @@ public class FaceRecActivity extends Activity implements CvCameraViewListener2 {
     @Override
     public void onResume()
     {
+    	Log.i(TAG, "onResume");
         super.onResume();
        /* MainActivity.mLabelMap=mLabelMap;
         MainActivity.mLabel=mLabel;*/
@@ -169,22 +171,25 @@ public class FaceRecActivity extends Activity implements CvCameraViewListener2 {
     }
 
     public void onDestroy() {
+    	Log.i(TAG, "onDestroy");
         super.onDestroy();
         mOpenCvCameraView.disableView();
     }
 
     public void onCameraViewStarted(int width, int height) {
+    	Log.i(TAG, "onCameraViewStarted");
         mGray = new Mat();
         mRgba = new Mat();
     }
 
     public void onCameraViewStopped() {
+    	Log.i(TAG, "onCameraViewStopped");
         mGray.release();
         mRgba.release();
     }
 
     public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
-    	
+    	Log.i(TAG, "onCameraFrame");
         mRgba = inputFrame.rgba();
         mGray = inputFrame.gray();
 
@@ -233,10 +238,10 @@ public class FaceRecActivity extends Activity implements CvCameraViewListener2 {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         Log.i(TAG, "called onCreateOptionsMenu");
-        mItemFace50 = menu.add("Face size 50%");
-        mItemFace40 = menu.add("Face size 40%");
-        mItemFace30 = menu.add("Face size 30%");
-        mItemFace20 = menu.add("Face size 20%");
+        mItemFace50 = menu.add("MinimumFaceSize 50%");
+        mItemFace40 = menu.add("MinimumFaceSize 40%");
+        mItemFace30 = menu.add("MinimumFaceSize 30%");
+        mItemFace20 = menu.add("MinimumFaceSize 20%");
         //mItemType   = menu.add(mDetectorName[mDetectorType]);
         return true;
     }

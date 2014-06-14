@@ -35,6 +35,11 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="landscape" >
         </activity>
+        <activity
+            android:name="com.ylwang.ifacerecognition.FaceRecTestActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
     <supports-screens

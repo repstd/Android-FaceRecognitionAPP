@@ -46,14 +46,19 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class AddPersonActivity extends Activity implements CvCameraViewListener2 {
+public class AddPersonActivity extends Activity implements
+		CvCameraViewListener2 {
 	private static final String TAG = "AddPerson";
 	private static final String ImageProc = "CutSubImage";
 	private static final String Predict = "AddPerson_Predict";
+	static final String EigenFace = "FaceRecognizer::Eigenfaces";
+	static final String FisherFace = "FaceRecognizer::Fisherfaces";
+	private String curFaceRecognizer;
 	private static int FaceDeteceted = 1;
 	private static int Predicted = 2;
 	private static int NeedTrainning = 3;
-	private static final Scalar FACE_RECT_COLOR = new Scalar(0, 255, 0, 255);
+	private static int NeedReTraining = 4;
+	public static final Scalar FACE_RECT_COLOR = new Scalar(0, 255, 0, 255);
 	public static final int JAVA_DETECTOR = 0;
 	public static final int NATIVE_DETECTOR = 1;
 	public static final int FaceWidth = 128;
@@ -63,6 +68,7 @@ public class AddPersonActivity extends Activity implements CvCameraViewListener2
 	private MenuItem mItemFace40;
 	private MenuItem mItemFace30;
 	private MenuItem mItemFace20;
+	private MenuItem mItemRecognizer;
 	private Button mButtonTrain;
 	private Button mButtonSave;
 	private Mat mRgba;
@@ -75,8 +81,8 @@ public class AddPersonActivity extends Activity implements CvCameraViewListener2
 	private int[] Label;
 	private double[] Confidence;
 	private File mCascadeFileEye;
-	private DetectionBasedTracker mNativeFaceDetector;
-	private DetectionBasedTracker mNativeEyeDetector;
+	private MyFaceDetector mNativeFaceDetector;
+	private MyFaceDetector mNativeEyeDetector;
 	private MyFaceRecognizer mFaceRec;
 	private int mDetectorType = NATIVE_DETECTOR;
 	private float mRelativeFaceSize = 0.2f;
@@ -91,7 +97,7 @@ public class AddPersonActivity extends Activity implements CvCameraViewListener2
 	private static int isTrained;
 	private static final int ModeNotCollectingFaces = 2;
 	protected static final String DiglogTAG = "Dialog_Usrname";
-	public static HashMap<Integer, String> mLabelMap=new HashMap<Integer,String>();
+	public static HashMap<Integer, String> mLabelMap = new HashMap<Integer, String>();
 	public static int mLabel = 0;
 	public static Vector<Mat> faceVector = null;
 	public static Vector<Integer> labelVector = null;
@@ -141,11 +147,13 @@ public class AddPersonActivity extends Activity implements CvCameraViewListener2
 					isEye.close();
 					osEye.close();
 
-					mNativeFaceDetector = new DetectionBasedTracker(
-							mCascadeFile.getAbsolutePath(), 0);
-					mNativeEyeDetector = new DetectionBasedTracker(
-							mCascadeFileEye.getAbsolutePath(), 0);
-					mFaceRec = new MyFaceRecognizer();
+					mNativeFaceDetector = new MyFaceDetector(
+							mCascadeFile.getAbsolutePath(), 0,
+							MyFaceDetector.TYPE_DetectionBasedTracker);
+					mNativeEyeDetector = new MyFaceDetector(
+							mCascadeFileEye.getAbsolutePath(), 0,
+							MyFaceDetector.TYPE_DetectionBasedTracker);
+					mFaceRec = new MyFaceRecognizer(curFaceRecognizer);
 
 					cascadeDir.delete();
 
@@ -181,9 +189,10 @@ public class AddPersonActivity extends Activity implements CvCameraViewListener2
 		mOpenCvCameraView.setCvCameraViewListener(this);
 		mFacePreview = (ImageView) findViewById(R.id.face_dect_preview);
 		mPredictRes = (TextView) findViewById(R.id.text_predict_res);
+		mPredictRes.setBackgroundColor(android.graphics.Color.RED);
 		mButtonTrain = (Button) findViewById(R.id.buttonTraining);
 		mButtonSave = (Button) findViewById(R.id.buttonSave);
-		
+		curFaceRecognizer = EigenFace;
 		Label = new int[1];
 		Confidence = new double[1];
 		Status = ModeNotCollectingFaces;
@@ -238,7 +247,6 @@ public class AddPersonActivity extends Activity implements CvCameraViewListener2
 				};
 				needTrainTh.run();
 
-
 			}
 
 		});
@@ -250,36 +258,48 @@ public class AddPersonActivity extends Activity implements CvCameraViewListener2
 				super.handleMessage(msg);
 				if (msg.what == FaceDeteceted) {
 					mFacePreview.setImageBitmap(mFacePreviewBitmap);
-				}
-				else if (msg.what == Predicted){
+				} else if (msg.what == Predicted) {
 
-					mPredictRes.setText("This is "+mLabelMap.get(Label[0]));
-				}
-				else if(msg.what==NeedTrainning){
+					mPredictRes.setText("This is " + mLabelMap.get(Label[0]));
+				} else if (msg.what == NeedTrainning) {
 
-				if (!faceVector.isEmpty() && !labelVector.isEmpty()&& Status == ModeNotCollectingFaces) {
-					if (faceVector.size() == labelVector.size()) {
-						Mat label = Converters.vector_int_to_Mat(labelVector);
-						try {
-							// mNativeFaceDetector.updateFaceRecognizer(faceVector,label);
-							mFaceRec.train(faceVector, label);
-							// mNativeFaceDetector.learnCollectedFaces(faceVector,
-							// label);
-						} catch (CvException e) {
-							// TODO: handle exception
-							Log.i(Predict, e.toString());
+					if (!faceVector.isEmpty() && !labelVector.isEmpty()
+							&& Status == ModeNotCollectingFaces) {
+						if (faceVector.size() == labelVector.size()) {
+							Mat label = Converters
+									.vector_int_to_Mat(labelVector);
+							try {
+								// mNativeFaceDetector.updateFaceRecognizer(faceVector,label);
+								mFaceRec.train(faceVector, label);
+								// mNativeFaceDetector.learnCollectedFaces(faceVector,
+								// label);
+							} catch (CvException e) {
+								// TODO: handle exception
+								Log.i(Predict, e.toString());
+							}
 						}
+
+						faceVector.clear();
+
+						labelVector.clear();
+						if (isTrained == 0) {
+							mButtonSave.setText(R.string.menu_add_save_predict);
+
+							isTrained = 1;
+						}
+						/*
+						 * else { mButtonSave.setText(R.string.menu_add_save);
+						 * 
+						 * isTrained = 0; }
+						 */
+						Log.i(TAG, "Updated");
 					}
 
-					faceVector.clear();
+				} else if (msg.what == NeedReTraining) {
 
-					labelVector.clear();
-					mButtonSave.setText(R.string.menu_add_save_predict);
-					
-					isTrained = 1;
-					Log.i(TAG, "Updated");
-				}
+					mButtonSave.setText(R.string.menu_add_save);
 
+					isTrained = 0;
 				}
 			}
 
@@ -293,10 +313,10 @@ public class AddPersonActivity extends Activity implements CvCameraViewListener2
 		super.onPause();
 		if (mOpenCvCameraView != null)
 			mOpenCvCameraView.disableView();
-		Intent intent = new Intent();  
-        intent.setClass(AddPersonActivity.this, MainActivity.class);  
-     
-        startActivity(intent);  
+		Intent intent = new Intent();
+		intent.setClass(AddPersonActivity.this, MainActivity.class);
+
+		startActivity(intent);
 	}
 
 	@Override
@@ -352,7 +372,6 @@ public class AddPersonActivity extends Activity implements CvCameraViewListener2
 				mAbsoluteFaceSize = Math.round(height * mRelativeFaceSize);
 			}
 			mNativeFaceDetector.setMinFaceSize(mAbsoluteFaceSize);
-			mNativeEyeDetector.setMinFaceSize(mAbsoluteFaceSize);
 		}
 
 		MatOfRect faces = new MatOfRect();
@@ -473,10 +492,11 @@ public class AddPersonActivity extends Activity implements CvCameraViewListener2
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		Log.i(TAG, "called onCreateOptionsMenu");
-		mItemFace50 = menu.add("Face size 50%");
-		mItemFace40 = menu.add("Face size 40%");
-		mItemFace30 = menu.add("Face size 30%");
-		mItemFace20 = menu.add("Face size 20%");
+		mItemFace50 = menu.add("MinimumFaceSize 50%");
+		mItemFace40 = menu.add("MinimumFaceSize 40%");
+		mItemFace30 = menu.add("MinimumFaceSize 30%");
+		mItemFace20 = menu.add("MinimumFaceSize 20%");
+		mItemRecognizer = menu.add(R.string.menu_main_recognizer_eigen);
 		// mItemType = menu.add(mDetectorName[mDetectorType]);
 		return true;
 	}
@@ -492,6 +512,32 @@ public class AddPersonActivity extends Activity implements CvCameraViewListener2
 			setMinFaceSize(0.3f);
 		else if (item == mItemFace20)
 			setMinFaceSize(0.2f);
+		else if (item == mItemRecognizer) {
+			if (curFaceRecognizer.equals(EigenFace)) {
+				curFaceRecognizer = FisherFace;
+			} else {
+				curFaceRecognizer = EigenFace;
+			}
+			mItemRecognizer.setTitle(curFaceRecognizer);
+			mFaceRec.setRecognizer(curFaceRecognizer);
+			if (isTrained == 1) {
+
+				Thread t = new Thread() {
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						super.run();
+						Message msg = new Message();
+						msg.what = NeedReTraining;
+						mPreViewUpdaterHandler.sendMessage(msg);
+					}
+
+				};
+				t.run();
+			}
+
+		}
 
 		return true;
 	}

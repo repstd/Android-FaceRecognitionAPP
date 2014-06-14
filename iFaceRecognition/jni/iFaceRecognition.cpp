@@ -1,6 +1,6 @@
 #include <vector>
-#include "com_ylwang_ifacerecognition_DetectionBasedTracker.h"
 #include "com_ylwang_ifacerecognition_MyFaceRecognizer.h"
+#include "com_ylwang_ifacerecognition_MyFaceDetector.h"
 #include "RecogLib/ImageUtils.h"
 #include "RecogLib/recognition.h"
 #include <jni.h>
@@ -40,10 +40,15 @@ inline void Mat_to_vector_Mat(Mat& mat, vector<Mat>& v_mat, int cnt) {
 
 }
 
-JNIEXPORT jlong JNICALL Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeCreateObject(
+JNIEXPORT jlong JNICALL Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeCreateObject(
+		JNIEnv * jenv, jclass jClass, jstring jFileName, jint faceSize) {
+	return Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeCreateDetectionBasedTrackedObjectObject(
+			jenv, jClass, jFileName, faceSize);
+}
+JNIEXPORT jlong JNICALL Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeCreateDetectionBasedTrackedObjectObject(
 		JNIEnv * jenv, jclass, jstring jFileName, jint faceSize) {
 	LOGD(
-			"Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeCreateObject enter");
+			"Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeCreateDetectionBasedTrackedObjectObject enter");
 
 	const char* jnamestr = jenv->GetStringUTFChars(jFileName, NULL);
 	string stdFileName(jnamestr);
@@ -70,14 +75,39 @@ JNIEXPORT jlong JNICALL Java_com_ylwang_ifacerecognition_DetectionBasedTracker_n
 	}
 
 	LOGD(
-			"Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeCreateObject exit");
+			"Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeCreateDetectionBasedTrackedObjectObject exit");
 	return result;
 }
+JNIEXPORT jlong JNICALL Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeCreateCascadeClassifierObject(
+		JNIEnv *jenv, jclass, jstring jFileName) {
+	LOGD(
+			"Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeCreateCascadeClassifierObject enter");
 
-JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeDestroyObject(
+	const char* jnamestr = jenv->GetStringUTFChars(jFileName, NULL);
+	string stdFileName(jnamestr);
+	jlong result = 0;
+	CascadeClassifier face_cascade;
+	try {
+		result = (jlong) new CascadeClassifier(stdFileName);
+	} catch (cv::Exception& e) {
+		LOGD(e.what());
+		exit(1);
+	}
+
+	LOGD(
+			"Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeCreateCascadeClassifierObject exit");
+	return result;
+
+}
+JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeDestroyObject(
+		JNIEnv * jenv, jclass jClass, jlong thiz) {
+	Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeDestroyDetectionBasedTrackedObjectObject(
+			jenv, jClass, thiz);
+}
+JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeDestroyDetectionBasedTrackedObjectObject(
 		JNIEnv * jenv, jclass, jlong thiz) {
 	LOGD(
-			"Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeDestroyObject enter");
+			"Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeDestroyDetectionBasedTrackedObjectObject enter");
 	try {
 		if (thiz != 0) {
 			((DetectionBasedTracker*) thiz)->stop();
@@ -96,13 +126,31 @@ JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_DetectionBasedTracker_na
 				"Unknown exception in JNI code {highgui::VideoCapture_n_1VideoCapture__()}");
 	}
 	LOGD(
-			"Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeDestroyObject exit");
+			"Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeDestroyDetectionBasedTrackedObjectObject exit");
 }
 
-JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeStart(
-		JNIEnv * jenv, jclass, jlong thiz) {
+JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeDestroyCascadeClassifierObject(
+		JNIEnv *, jclass, jlong thiz) {
+
 	LOGD(
-			"Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeStart enter");
+			"Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeDestroyCascadeClassifierObject exit");
+
+	try {
+		if (thiz != 0) {
+
+			delete (CascadeClassifier*) thiz;
+		}
+	} catch (cv::Exception& e) {
+		LOGD(e.what());
+	}
+
+	LOGD(
+			"Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeDestroyCascadeClassifierObject exit");
+}
+
+JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeStart(
+		JNIEnv * jenv, jclass, jlong thiz) {
+	LOGD( "Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeStart enter");
 	try {
 		((DetectionBasedTracker*) thiz)->run();
 	}
@@ -119,11 +167,10 @@ JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_DetectionBasedTracker_na
 		jenv->ThrowNew(je,
 				"Unknown exception in JNI code {highgui::VideoCapture_n_1VideoCapture__()}");
 	}
-	LOGD(
-			"Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeStart exit");
+	LOGD( "Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeStart exit");
 }
 
-JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeStop(
+JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeStop(
 		JNIEnv * jenv, jclass, jlong thiz) {
 	LOGD(
 			"Java_org_opencv_samples_facedetect_DetectionBasedTracker_nativeStop enter");
@@ -141,14 +188,13 @@ JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_DetectionBasedTracker_na
 		jenv->ThrowNew(je,
 				"Unknown exception in JNI code {highgui::VideoCapture_n_1VideoCapture__()}");
 	}
-	LOGD(
-			"Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeStop exit");
+	LOGD( "Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeStop exit");
 }
 
-JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeSetFaceSize(
+JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeSetFaceSize(
 		JNIEnv * jenv, jclass, jlong thiz, jint faceSize) {
 	LOGD(
-			"Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeSetFaceSize enter");
+			"Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeSetFaceSize enter");
 	try {
 		if (faceSize > 0) {
 			DetectionBasedTracker::Parameters DetectorParams =
@@ -169,14 +215,21 @@ JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_DetectionBasedTracker_na
 				"Unknown exception in JNI code {highgui::VideoCapture_n_1VideoCapture__()}");
 	}
 	LOGD(
-			"Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeSetFaceSize exit");
+			"Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeSetFaceSize exit");
 }
 
-JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeDetect(
+JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeDetect(
+		JNIEnv * jenv, jclass jClass, jlong thiz, jlong imageGray,
+		jlong faces) {
+	Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeDetectionBasedTrackedDetect(
+			jenv, jClass, thiz, imageGray, faces);
+
+}
+JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeDetectionBasedTrackedDetect(
 		JNIEnv * jenv, jclass, jlong thiz, jlong imageGray, jlong faces) {
 
 	LOGD(
-			"Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeDetect enter");
+			"Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeDetectionBasedTrackedDetect enter");
 	try {
 		vector<Rect> RectFaces;
 
@@ -197,7 +250,28 @@ JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_DetectionBasedTracker_na
 				"Unknown exception in JNI code {highgui::VideoCapture_n_1VideoCapture__()}");
 	}
 	LOGD(
-			"Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeDetect exit");
+			"Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeDetectionBasedTrackedDetect exit");
+}
+
+JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeCascadeClassfierDetect(
+		JNIEnv * jenv, jclass, jlong thiz, jlong imageGray, jlong faces,
+		jint size) {
+
+	LOGD(
+			"Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeCascadeClassfierDetect enter");
+	vector<Rect> RectFaces;
+
+	try {
+		((CascadeClassifier*) thiz)->detectMultiScale(*((Mat*) imageGray),
+				RectFaces, 1.1, 2, 0 | CV_HAAR_SCALE_IMAGE, Size(size, size));
+
+		vector_Rect_to_Mat(RectFaces, *((Mat*) faces));
+	} catch (cv::Exception& e) {
+		LOGD(e.what());
+	}
+	LOGD(
+			"Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeCascadeClassfierDetect exit");
+
 }
 void equalizeLeftAndRightHalves(Mat &faceImg) {
 	LOGD_ERR("equalizeLeftAndRightHalves Enter");
@@ -243,10 +317,10 @@ void equalizeLeftAndRightHalves(Mat &faceImg) {
 	LOGD_ERR("equalizeLeftAndRightHalves Exit");
 }
 
-JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeEqualizeLeftAndRightHalves(
+JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeEqualizeLeftAndRightHalves(
 		JNIEnv * jenv, jclass jc, jlong thiz, jlong faceimg) {
 	LOGD(
-			"Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeEqualizeLeftAndRightHalves enter");
+			"Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeEqualizeLeftAndRightHalves enter");
 	try {
 		equalizeLeftAndRightHalves(*((Mat*) faceimg));
 	} catch (cv::Exception& e) {
@@ -259,15 +333,15 @@ JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_DetectionBasedTracker_na
 
 	}
 	LOGD(
-			"Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeEqualizeLeftAndRightHalves exit");
+			"Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeEqualizeLeftAndRightHalves exit");
 	return;
 }
-JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeGetPreprocessingImage(
+JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeGetPreprocessingImage(
 		JNIEnv * jenv, jclass jc, jlong thiz, jlong faceImg, jlong outImg,
 		jint desiredWidth, jint desiredHeight) {
 	LOGD(
-			"Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeGetPreprocessingImage enter");
-	Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeEqualizeLeftAndRightHalves(
+			"Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeGetPreprocessingImage enter");
+	Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeEqualizeLeftAndRightHalves(
 			jenv, jc, thiz, faceImg);
 	Mat filtered = Mat(((Mat*) faceImg)->size(), CV_8U);
 	bilateralFilter(*((Mat*) faceImg), filtered, 0, 20.0, 2.0);
@@ -281,29 +355,28 @@ JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_DetectionBasedTracker_na
 	//Mat dstImg = Mat(mask.size(), CV_8U, Scalar(128));
 	filtered.copyTo(*((Mat*) outImg), mask);
 	LOGD(
-			"Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeGetPreprocessingImage exit");
+			"Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeGetPreprocessingImage exit");
 
 }
 
-JNIEXPORT jdouble JNICALL Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeGetSimilarity(
+JNIEXPORT jdouble JNICALL Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeGetSimilarity(
 		JNIEnv *, jclass, jlong thiz, jlong matA, jlong matB) {
 
 	LOGD(
-			"Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeGetSimilarity enter");
+			"Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeGetSimilarity enter");
 
-	return (double)getSimilarity(*((Mat *) matA), *((Mat *) matB));
-
+	return (double) getSimilarity(*((Mat *) matA), *((Mat *) matB));
 
 	LOGD(
-			"Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeGetSimilarity exit");
+			"Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeGetSimilarity exit");
 
 }
 
-/*JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeCreateFaceAlgorithm(
+/*JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeCreateFaceAlgorithm(
  JNIEnv * jenv, jclass, jlong thiz, jlong mModel,
  jstring facerecAlgorithm) {
  LOGD(
- "Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeCreateFaceAlgorithm enter");
+ "Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeCreateFaceAlgorithm enter");
  //LOGD_ERR("Line 297");
  //Ptr<FaceRecognizer> model;
  cout << "Learning the collected faces using the [" << facerecAlgorithm
@@ -353,7 +426,7 @@ JNIEXPORT jdouble JNICALL Java_com_ylwang_ifacerecognition_DetectionBasedTracker
  //  return NULL;
  //jenv->ReleaseStringUTFChars(facerecAlgorithm, NULL);
  LOGD(
- "Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeCreateFaceAlgorithm exit");
+ "Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeCreateFaceAlgorithm exit");
  return;
 
  }*/
@@ -386,11 +459,11 @@ Ptr<FaceRecognizer> CreateModel(String stdFacerecAlgorithmName) {
 	return model;
 
 }
-JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeCreateModel(
+JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeCreateModel(
 		JNIEnv * jenv, jclass, jlong thiz, jstring facerecAlgorithm,
 		jstring mModelName) {
 	LOGD(
-			"Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeCreateModel Enter");
+			"Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeCreateModel Enter");
 
 	const char* jnamestr_algo = jenv->GetStringUTFChars(facerecAlgorithm, NULL);
 	const char* jnamestr_model = jenv->GetStringUTFChars(mModelName, NULL);
@@ -402,12 +475,12 @@ JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_DetectionBasedTracker_na
 	return;
 
 }
-JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativelearnCollectedFaces(
+JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_MyFaceDetector_nativelearnCollectedFaces(
 		JNIEnv * jenv, jclass, jlong, jstring mModelPath,
 		jstring facerecAlgorithm, jlong preprocessedFaces, jlong faceLabels,
 		jint cnt) {
 	LOGD(
-			"Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativelearnCollectedFaces Enters");
+			"Java_com_ylwang_ifacerecognition_MyFaceDetector_nativelearnCollectedFaces Enters");
 	const char* jnamestr_algo = jenv->GetStringUTFChars(facerecAlgorithm, NULL);
 	const char* jnamestr_model = jenv->GetStringUTFChars(mModelPath, NULL);
 	string stdFacerecAlgorithmName(jnamestr_algo);
@@ -427,15 +500,15 @@ JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_DetectionBasedTracker_na
 	}
 
 	LOGD(
-			"Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativelearnCollectedFaces Exit");
+			"Java_com_ylwang_ifacerecognition_MyFaceDetector_nativelearnCollectedFaces Exit");
 
 }
-JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeUpdate(
+JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeUpdate(
 		JNIEnv * jenv, jclass, jlong, jstring mModelPath,
 		jstring facerecAlgorithm, jlong preprocessedFaces, jlong faceLabels,
 		jint cnt) {
 	LOGD(
-			"Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeUpdate Enters");
+			"Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeUpdate Enters");
 	const char* jnamestr_algo = jenv->GetStringUTFChars(facerecAlgorithm, NULL);
 	const char* jnamestr_model = jenv->GetStringUTFChars(mModelPath, NULL);
 	string stdFacerecAlgorithmName(jnamestr_algo);
@@ -453,15 +526,14 @@ JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_DetectionBasedTracker_na
 	} catch (Exception& e) {
 		LOGD_Train_ERR(e.what());
 	}
-	LOGD(
-			"Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeUpdate Exit");
+	LOGD( "Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeUpdate Exit");
 
 }
-JNIEXPORT jint JNICALL Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativePredict(
+JNIEXPORT jint JNICALL Java_com_ylwang_ifacerecognition_MyFaceDetector_nativePredict(
 		JNIEnv * jenv, jclass, jlong, jstring mModelPath,
 		jstring facerecAlgorithm, jlong faceImg) {
 	LOGD(
-			"Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativePredict Enters");
+			"Java_com_ylwang_ifacerecognition_MyFaceDetector_nativePredict Enters");
 	const char* jnamestr_algo = jenv->GetStringUTFChars(facerecAlgorithm, NULL);
 	const char* jnamestr_model = jenv->GetStringUTFChars(mModelPath, NULL);
 	string stdFacerecAlgorithmName(jnamestr_algo);
@@ -489,9 +561,8 @@ JNIEXPORT jint JNICALL Java_com_ylwang_ifacerecognition_DetectionBasedTracker_na
 	} catch (Exception& e) {
 		LOGD_Train_ERR(e.what());
 	}
-	return (jint)label;
-	LOGD(
-			"Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativePredict Exit");
+	return (jint) label;
+	LOGD( "Java_com_ylwang_ifacerecognition_MyFaceDetector_nativePredict Exit");
 
 }
 
@@ -748,7 +819,7 @@ void eyeFeatureExtraction(Mat src) {
 	 }*/
 
 }
-JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_DetectionBasedTracker_nativeFindIrisCenter(
+JNIEXPORT void JNICALL Java_com_ylwang_ifacerecognition_MyFaceDetector_nativeFindIrisCenter(
 		JNIEnv * jenv, jclass, jlong thiz, jlong faceImg, jdouble threshold,
 		jdouble ratio) {
 
@@ -767,25 +838,27 @@ JNIEXPORT jlong JNICALL Java_com_ylwang_ifacerecognition_MyFaceRecognizer_native
 	jlong result = 0;
 
 	Ptr<FaceRecognizer> model;
-	if(stdAlgorithmName=="FaceRecognizer::Eigenfaces")
-		model=cv::createEigenFaceRecognizer();
-	else if(stdAlgorithmName=="FaceRecognizer::Fisherfaces")
-		model=cv::createFisherFaceRecognizer();
+	if (stdAlgorithmName == "FaceRecognizer::Eigenfaces") {
+		LOGD("EigenFace Recognizer Created.");
+		model = cv::createEigenFaceRecognizer();
+	} else if (stdAlgorithmName == "FaceRecognizer::Fisherfaces") {
+		LOGD("FisherFace Recognizer Created.");
+		model = cv::createFisherFaceRecognizer();
+	}
 	FaceRecognizer* pFRc = model.obj;
 	model.addref();
 	result = (jlong) pFRc;
 	return result;
 
 }
-JNIEXPORT jdouble JNICALL Java_com_ylwang_ifacerecognition_MyFaceRecognizer_nativeGetSimilarity
-  (JNIEnv *, jobject, jlong matA, jlong matB){
+JNIEXPORT jdouble JNICALL Java_com_ylwang_ifacerecognition_MyFaceRecognizer_nativeGetSimilarity(
+		JNIEnv *, jobject, jlong matA, jlong matB) {
 	LOGD(
-				"Java_com_ylwang_ifacerecognition_MyFaceRecognizer_nativeGetSimilarity enter");
+			"Java_com_ylwang_ifacerecognition_MyFaceRecognizer_nativeGetSimilarity enter");
 
-		return (jdouble)getSimilarity(*((Mat *) matA), *((Mat *) matB));
+	return (jdouble) getSimilarity(*((Mat *) matA), *((Mat *) matB));
 
-
-		LOGD(
-				"Java_com_ylwang_ifacerecognition_MyFaceRecognizer_nativeGetSimilarity exit");
+	LOGD(
+			"Java_com_ylwang_ifacerecognition_MyFaceRecognizer_nativeGetSimilarity exit");
 
 }
