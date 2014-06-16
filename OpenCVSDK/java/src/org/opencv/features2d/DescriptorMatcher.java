@@ -519,6 +519,8 @@ public class DescriptorMatcher {
  * the train descriptors collection stored in the class object.
  * @param matches Found matches.
  * @param maxDistance Threshold for the distance between matched descriptors.
+ * Distance means here metric distance (e.g. Hamming distance), not the distance
+ * between coordinates (which is measured in Pixels)!
  * @param mask Mask specifying permissible matches between an input query and
  * train matrices of descriptors.
  * @param compactResult Parameter used when the mask (or masks) is not empty. If
@@ -551,6 +553,8 @@ public class DescriptorMatcher {
  * the train descriptors collection stored in the class object.
  * @param matches Found matches.
  * @param maxDistance Threshold for the distance between matched descriptors.
+ * Distance means here metric distance (e.g. Hamming distance), not the distance
+ * between coordinates (which is measured in Pixels)!
  *
  * @see <a href="http://docs.opencv.org/modules/features2d/doc/common_interfaces_of_descriptor_matchers.html#descriptormatcher-radiusmatch">org.opencv.features2d.DescriptorMatcher.radiusMatch</a>
  */
@@ -579,6 +583,8 @@ public class DescriptorMatcher {
  * @param queryDescriptors Query set of descriptors.
  * @param matches Found matches.
  * @param maxDistance Threshold for the distance between matched descriptors.
+ * Distance means here metric distance (e.g. Hamming distance), not the distance
+ * between coordinates (which is measured in Pixels)!
  * @param masks Set of masks. Each <code>masks[i]</code> specifies permissible
  * matches between the input query descriptors and stored train descriptors from
  * the i-th image <code>trainDescCollection[i]</code>.
@@ -611,6 +617,8 @@ public class DescriptorMatcher {
  * @param queryDescriptors Query set of descriptors.
  * @param matches Found matches.
  * @param maxDistance Threshold for the distance between matched descriptors.
+ * Distance means here metric distance (e.g. Hamming distance), not the distance
+ * between coordinates (which is measured in Pixels)!
  *
  * @see <a href="http://docs.opencv.org/modules/features2d/doc/common_interfaces_of_descriptor_matchers.html#descriptormatcher-radiusmatch">org.opencv.features2d.DescriptorMatcher.radiusMatch</a>
  */

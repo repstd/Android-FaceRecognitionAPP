@@ -45,6 +45,12 @@ public class Video {
  * <p>See the OpenCV sample <code>camshiftdemo.c</code> that tracks colored
  * objects.</p>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> (Python) A sample explaining the camshift tracking algorithm can be
+ * found at opencv_source_code/samples/python2/camshift.py
+ * </ul>
+ *
  * @param probImage Back projection of the object histogram. See
  * "calcBackProject".
  * @param window Initial search window.
@@ -169,6 +175,12 @@ public class Video {
  * <code>mask</code> is filled to indicate pixels where the computed angle is
  * valid.</p>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> (Python) An example on how to perform a motion template technique can
+ * be found at opencv_source_code/samples/python2/motempl.py
+ * </ul>
+ *
  * @param mhi Motion history single-channel floating-point image.
  * @param mask Output mask image that has the type <code>CV_8UC1</code> and the
  * same size as <code>mhi</code>. Its non-zero elements mark pixels where the
@@ -210,6 +222,12 @@ public class Video {
  * <code>mask</code> is filled to indicate pixels where the computed angle is
  * valid.</p>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> (Python) An example on how to perform a motion template technique can
+ * be found at opencv_source_code/samples/python2/motempl.py
+ * </ul>
+ *
  * @param mhi Motion history single-channel floating-point image.
  * @param mask Output mask image that has the type <code>CV_8UC1</code> and the
  * same size as <code>mhi</code>. Its non-zero elements mark pixels where the
@@ -249,6 +267,14 @@ public class Video {
  * [Farneback2003] algorithm so that</p>
  *
  * <p><em>prev(y,x) ~ next(y + flow(y,x)[1], x + flow(y,x)[0])</em></p>
+ *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using the optical flow algorithm described by Gunnar
+ * Farneback can be found at opencv_source_code/samples/cpp/fback.cpp
+ *   <li> (Python) An example using the optical flow algorithm described by
+ * Gunnar Farneback can be found at opencv_source_code/samples/python2/opt_flow.py
+ * </ul>
  *
  * @param prev first 8-bit single-channel input image.
  * @param next second input image of the same size and the same type as
@@ -308,6 +334,16 @@ public class Video {
  * optical flow in pyramids. See [Bouguet00]. The function is parallelized with
  * the TBB library.</p>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using the Lucas-Kanade optical flow algorithm can be found
+ * at opencv_source_code/samples/cpp/lkdemo.cpp
+ *   <li> (Python) An example using the Lucas-Kanade optical flow algorithm can
+ * be found at opencv_source_code/samples/python2/lk_track.py
+ *   <li> (Python) An example using the Lucas-Kanade tracker for homography
+ * matching can be found at opencv_source_code/samples/python2/lk_homography.py
+ * </ul>
+ *
  * @param prevImg first 8-bit input image or pyramid constructed by
  * "buildOpticalFlowPyramid".
  * @param nextImg second input image or pyramid of the same size and the same
@@ -318,9 +354,9 @@ public class Video {
  * floating-point coordinates) containing the calculated new positions of input
  * features in the second image; when <code>OPTFLOW_USE_INITIAL_FLOW</code> flag
  * is passed, the vector must have the same size as in the input.
- * @param status output status vector; each element of the vector is set to 1 if
- * the flow for the corresponding features has been found, otherwise, it is set
- * to 0.
+ * @param status output status vector (of unsigned chars); each element of the
+ * vector is set to 1 if the flow for the corresponding features has been found,
+ * otherwise, it is set to 0.
  * @param err output vector of errors; each element of the vector is set to an
  * error for the corresponding feature, type of the error measure can be set in
  * <code>flags</code> parameter; if the flow wasn't found then the error is not
@@ -372,6 +408,16 @@ public class Video {
  * optical flow in pyramids. See [Bouguet00]. The function is parallelized with
  * the TBB library.</p>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using the Lucas-Kanade optical flow algorithm can be found
+ * at opencv_source_code/samples/cpp/lkdemo.cpp
+ *   <li> (Python) An example using the Lucas-Kanade optical flow algorithm can
+ * be found at opencv_source_code/samples/python2/lk_track.py
+ *   <li> (Python) An example using the Lucas-Kanade tracker for homography
+ * matching can be found at opencv_source_code/samples/python2/lk_homography.py
+ * </ul>
+ *
  * @param prevImg first 8-bit input image or pyramid constructed by
  * "buildOpticalFlowPyramid".
  * @param nextImg second input image or pyramid of the same size and the same
@@ -382,9 +428,9 @@ public class Video {
  * floating-point coordinates) containing the calculated new positions of input
  * features in the second image; when <code>OPTFLOW_USE_INITIAL_FLOW</code> flag
  * is passed, the vector must have the same size as in the input.
- * @param status output status vector; each element of the vector is set to 1 if
- * the flow for the corresponding features has been found, otherwise, it is set
- * to 0.
+ * @param status output status vector (of unsigned chars); each element of the
+ * vector is set to 1 if the flow for the corresponding features has been found,
+ * otherwise, it is set to 0.
  * @param err output vector of errors; each element of the vector is set to an
  * error for the corresponding feature, type of the error measure can be set in
  * <code>flags</code> parameter; if the flow wasn't found then the error is not
@@ -416,6 +462,16 @@ public class Video {
  * optical flow in pyramids. See [Bouguet00]. The function is parallelized with
  * the TBB library.</p>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using the Lucas-Kanade optical flow algorithm can be found
+ * at opencv_source_code/samples/cpp/lkdemo.cpp
+ *   <li> (Python) An example using the Lucas-Kanade optical flow algorithm can
+ * be found at opencv_source_code/samples/python2/lk_track.py
+ *   <li> (Python) An example using the Lucas-Kanade tracker for homography
+ * matching can be found at opencv_source_code/samples/python2/lk_homography.py
+ * </ul>
+ *
  * @param prevImg first 8-bit input image or pyramid constructed by
  * "buildOpticalFlowPyramid".
  * @param nextImg second input image or pyramid of the same size and the same
@@ -426,9 +482,9 @@ public class Video {
  * floating-point coordinates) containing the calculated new positions of input
  * features in the second image; when <code>OPTFLOW_USE_INITIAL_FLOW</code> flag
  * is passed, the vector must have the same size as in the input.
- * @param status output status vector; each element of the vector is set to 1 if
- * the flow for the corresponding features has been found, otherwise, it is set
- * to 0.
+ * @param status output status vector (of unsigned chars); each element of the
+ * vector is set to 1 if the flow for the corresponding features has been found,
+ * otherwise, it is set to 0.
  * @param err output vector of errors; each element of the vector is set to an
  * error for the corresponding feature, type of the error measure can be set in
  * <code>flags</code> parameter; if the flow wasn't found then the error is not
@@ -457,6 +513,12 @@ public class Video {
  *
  * <p>See [Tao2012]. And site of project - http://graphics.berkeley.edu/papers/Tao-SAN-2012-05/.</p>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using the simpleFlow algorithm can be found at
+ * opencv_source_code/samples/cpp/simpleflow_demo.cpp
+ * </ul>
+ *
  * @param from a from
  * @param to a to
  * @param flow a flow
@@ -484,6 +546,12 @@ public class Video {
  * <p>Calculate an optical flow using "SimpleFlow" algorithm.</p>
  *
  * <p>See [Tao2012]. And site of project - http://graphics.berkeley.edu/papers/Tao-SAN-2012-05/.</p>
+ *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using the simpleFlow algorithm can be found at
+ * opencv_source_code/samples/cpp/simpleflow_demo.cpp
+ * </ul>
  *
  * @param from a from
  * @param to a to
@@ -593,6 +661,11 @@ public class Video {
  * example, you can do this by retrieving connected components with
  * "findContours", throwing away contours with small area ("contourArea"), and
  * rendering the remaining contours with "drawContours".</p>
+ *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> A mean-shift tracking sample can be found at opencv_source_code/samples/cpp/camshiftdemo.cpp
+ * </ul>
  *
  * @param probImage Back projection of the object histogram. See
  * "calcBackProject" for details.

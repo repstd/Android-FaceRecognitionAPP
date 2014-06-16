@@ -72,6 +72,12 @@ import org.opencv.core.Mat;
  * quadratic interpolation and speckle filtering).
  * </ul>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> (Python) An example illustrating the use of the StereoSGBM matching
+ * algorithm can be found at opencv_source_code/samples/python2/stereo_match.py
+ * </ul>
+ *
  * @see <a href="http://docs.opencv.org/modules/calib3d/doc/camera_calibration_and_3d_reconstruction.html#stereosgbm">org.opencv.calib3d.StereoSGBM</a>
  */
 public class StereoSGBM {
@@ -156,7 +162,8 @@ public class StereoSGBM {
  * filtering. Otherwise, set it somewhere in the 50-200 range.
  * @param speckleRange Maximum disparity variation within each connected
  * component. If you do speckle filtering, set the parameter to a positive
- * value, multiple of 16. Normally, 16 or 32 is good enough.
+ * value, it will be implicitly multiplied by 16. Normally, 1 or 2 is good
+ * enough.
  * @param fullDP Set it to <code>true</code> to run the full-scale two-pass
  * dynamic programming algorithm. It will consume O(W*H*numDisparities) bytes,
  * which is large for 640x480 stereo and huge for HD-size pictures. By default,

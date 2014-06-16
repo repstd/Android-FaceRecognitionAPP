@@ -11,6 +11,21 @@ import org.opencv.utils.Converters;
 
 public class Core {
 
+    // these constants are wrapped inside functions to prevent inlining
+    private static String getVersion() { return "2.4.8.0"; }
+    private static String getNativeLibraryName() { return "opencv_java248"; }
+    private static int getVersionEpoch() { return 2; }
+    private static int getVersionMajor() { return 4; }
+    private static int getVersionMinor() { return 8; }
+    private static int getVersionRevision() { return 0; }
+
+    public static final String VERSION = getVersion();
+    public static final String NATIVE_LIBRARY_NAME = getNativeLibraryName();
+    public static final int VERSION_EPOCH = getVersionEpoch();
+    public static final int VERSION_MAJOR = getVersionMajor();
+    public static final int VERSION_MINOR = getVersionMinor();
+    public static final int VERSION_REVISION = getVersionRevision();
+
     private static final int
             CV_8U = 0,
             CV_8S = 1,
@@ -468,7 +483,7 @@ public class Core {
  * @param dst output array that has the same size and number of channels as the
  * input array(s); the depth is defined by <code>dtype</code> or
  * <code>src1</code>/<code>src2</code>.
- * @param mask optional operation mask – 8-bit single channel array, that
+ * @param mask optional operation mask - 8-bit single channel array, that
  * specifies elements of the output array to be changed.
  * @param dtype optional depth of the output array (see the discussion below).
  *
@@ -543,7 +558,7 @@ public class Core {
  * @param dst output array that has the same size and number of channels as the
  * input array(s); the depth is defined by <code>dtype</code> or
  * <code>src1</code>/<code>src2</code>.
- * @param mask optional operation mask – 8-bit single channel array, that
+ * @param mask optional operation mask - 8-bit single channel array, that
  * specifies elements of the output array to be changed.
  *
  * @see <a href="http://docs.opencv.org/modules/core/doc/operations_on_arrays.html#add">org.opencv.core.Core.add</a>
@@ -694,7 +709,7 @@ public class Core {
  * @param dst output array that has the same size and number of channels as the
  * input array(s); the depth is defined by <code>dtype</code> or
  * <code>src1</code>/<code>src2</code>.
- * @param mask optional operation mask – 8-bit single channel array, that
+ * @param mask optional operation mask - 8-bit single channel array, that
  * specifies elements of the output array to be changed.
  * @param dtype optional depth of the output array (see the discussion below).
  *
@@ -769,7 +784,7 @@ public class Core {
  * @param dst output array that has the same size and number of channels as the
  * input array(s); the depth is defined by <code>dtype</code> or
  * <code>src1</code>/<code>src2</code>.
- * @param mask optional operation mask – 8-bit single channel array, that
+ * @param mask optional operation mask - 8-bit single channel array, that
  * specifies elements of the output array to be changed.
  *
  * @see <a href="http://docs.opencv.org/modules/core/doc/operations_on_arrays.html#add">org.opencv.core.Core.add</a>
@@ -1765,8 +1780,7 @@ public class Core {
  * and <code>cv.Cmp</code> it is always an array; in the case of
  * <code>cvCmpS</code>, <code>cv.CmpS</code> it is always a scalar); when it is
  * an array, it must have a single channel.
- * @param dst output array that has the same size as the input arrays and type=
- * <code>CV_8UC1</code>.
+ * @param dst output array that has the same size and type as the input arrays.
  * @param cmpop a flag, that specifies correspondence between the arrays:
  * <ul>
  *   <li> CMP_EQ <code>src1</code> is equal to <code>src2</code>.
@@ -1841,8 +1855,7 @@ public class Core {
  * and <code>cv.Cmp</code> it is always an array; in the case of
  * <code>cvCmpS</code>, <code>cv.CmpS</code> it is always a scalar); when it is
  * an array, it must have a single channel.
- * @param dst output array that has the same size as the input arrays and type=
- * <code>CV_8UC1</code>.
+ * @param dst output array that has the same size and type as the input arrays.
  * @param cmpop a flag, that specifies correspondence between the arrays:
  * <ul>
  *   <li> CMP_EQ <code>src1</code> is equal to <code>src2</code>.
@@ -2359,7 +2372,7 @@ public class Core {
  * matrix of the same size as input. In case of 2D transform, it uses the packed
  * format as shown above. In case of a single 1D transform, it looks like the
  * first row of the matrix above. In case of multiple 1D transforms (when using
- * the <code>DCT_ROWS</code> flag), each row of the output matrix looks like the
+ * the <code>DFT_ROWS</code> flag), each row of the output matrix looks like the
  * first row of the matrix above.
  *   <li> If the input array is complex and either <code>DFT_INVERSE</code> or
  * <code>DFT_REAL_OUTPUT</code> are not set, the output is a complex array of
@@ -2480,6 +2493,16 @@ public class Core {
  * to "flip" the second convolution operand <code>B</code> vertically and
  * horizontally using "flip".</p>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using the discrete fourier transform can be found at
+ * opencv_source_code/samples/cpp/dft.cpp
+ *   <li> (Python) An example using the dft functionality to perform Wiener
+ * deconvolution can be found at opencv_source/samples/python2/deconvolution.py
+ *   <li> (Python) An example rearranging the quadrants of a Fourier image can
+ * be found at opencv_source/samples/python2/dft.py
+ * </ul>
+ *
  * @param src input array that could be real or complex.
  * @param dst output array whose size and type depends on the <code>flags</code>.
  * @param flags transformation flags, representing a combination of the
@@ -2500,7 +2523,7 @@ public class Core {
  * array can be packed into a real array of the same size as input, which is the
  * fastest option and which is what the function does by default; however, you
  * may wish to get a full complex array (for simpler spectrum analysis, and so
- * on) – pass the flag to enable the function to produce a full-size complex
+ * on) - pass the flag to enable the function to produce a full-size complex
  * output array.
  *   <li> DFT_REAL_OUTPUT performs an inverse transformation of a 1D or 2D
  * complex array; the result is normally a complex array of the same size,
@@ -2612,7 +2635,7 @@ public class Core {
  * matrix of the same size as input. In case of 2D transform, it uses the packed
  * format as shown above. In case of a single 1D transform, it looks like the
  * first row of the matrix above. In case of multiple 1D transforms (when using
- * the <code>DCT_ROWS</code> flag), each row of the output matrix looks like the
+ * the <code>DFT_ROWS</code> flag), each row of the output matrix looks like the
  * first row of the matrix above.
  *   <li> If the input array is complex and either <code>DFT_INVERSE</code> or
  * <code>DFT_REAL_OUTPUT</code> are not set, the output is a complex array of
@@ -2732,6 +2755,16 @@ public class Core {
  * functions actually calculate cross-correlation, not convolution, so you need
  * to "flip" the second convolution operand <code>B</code> vertically and
  * horizontally using "flip".</p>
+ *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using the discrete fourier transform can be found at
+ * opencv_source_code/samples/cpp/dft.cpp
+ *   <li> (Python) An example using the dft functionality to perform Wiener
+ * deconvolution can be found at opencv_source/samples/python2/deconvolution.py
+ *   <li> (Python) An example rearranging the quadrants of a Fourier image can
+ * be found at opencv_source/samples/python2/dft.py
+ * </ul>
  *
  * @param src input array that could be real or complex.
  * @param dst output array whose size and type depends on the <code>flags</code>.
@@ -3127,7 +3160,7 @@ public class Core {
  *
  * @param img Image.
  * @param center Center of the ellipse.
- * @param axes Length of the ellipse axes.
+ * @param axes Half of the size of the ellipse main axes.
  * @param angle Ellipse rotation angle in degrees.
  * @param startAngle Starting angle of the elliptic arc in degrees.
  * @param endAngle Ending angle of the elliptic arc in degrees.
@@ -3164,7 +3197,7 @@ public class Core {
  *
  * @param img Image.
  * @param center Center of the ellipse.
- * @param axes Length of the ellipse axes.
+ * @param axes Half of the size of the ellipse main axes.
  * @param angle Ellipse rotation angle in degrees.
  * @param startAngle Starting angle of the elliptic arc in degrees.
  * @param endAngle Ending angle of the elliptic arc in degrees.
@@ -3198,7 +3231,7 @@ public class Core {
  *
  * @param img Image.
  * @param center Center of the ellipse.
- * @param axes Length of the ellipse axes.
+ * @param axes Half of the size of the ellipse main axes.
  * @param angle Ellipse rotation angle in degrees.
  * @param startAngle Starting angle of the elliptic arc in degrees.
  * @param endAngle Ending angle of the elliptic arc in degrees.
@@ -3326,7 +3359,8 @@ public class Core {
  * that approximates the specified elliptic arc. It is used by "ellipse".</p>
  *
  * @param center Center of the arc.
- * @param axes Half-sizes of the arc. See the "ellipse" for details.
+ * @param axes Half of the size of the ellipse main axes. See the "ellipse" for
+ * details.
  * @param angle Rotation angle of the ellipse in degrees. See the "ellipse" for
  * details.
  * @param arcStart Starting angle of the elliptic arc in degrees.
@@ -3691,6 +3725,15 @@ public class Core {
     // C++:  string getBuildInformation()
     //
 
+/**
+ * <p>Returns full configuration time cmake output.</p>
+ *
+ * <p>Returned value is raw cmake output including version control system revision,
+ * compiler version, compiler flags, enabled modules and third party libraries,
+ * etc. Output format depends on target architecture.</p>
+ *
+ * @see <a href="http://docs.opencv.org/modules/core/doc/utility_and_system_functions_and_macros.html#getbuildinformation">org.opencv.core.Core.getBuildInformation</a>
+ */
     public static String getBuildInformation()
     {
 
@@ -3735,6 +3778,11 @@ public class Core {
     // C++:  int getNumberOfCPUs()
     //
 
+/**
+ * <p>Returns the number of logical CPUs available for the process.</p>
+ *
+ * @see <a href="http://docs.opencv.org/modules/core/doc/utility_and_system_functions_and_macros.html#getnumberofcpus">org.opencv.core.Core.getNumberOfCPUs</a>
+ */
     public static int getNumberOfCPUs()
     {
 
@@ -4156,8 +4204,15 @@ public class Core {
  * them with the (<code>flags</code> = <code>KMEANS_USE_INITIAL_LABELS</code>)
  * flag, and then choose the best (most-compact) clustering.</p>
  *
- * @param data a data
- * @param K a K
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example on K-means clustering can be found at opencv_source_code/samples/cpp/kmeans.cpp
+ *   <li> (Python) An example on K-means clustering can be found at
+ * opencv_source_code/samples/python2/kmeans.py
+ * </ul>
+ *
+ * @param data Data for clustering.
+ * @param K Number of clusters to split the set by.
  * @param bestLabels a bestLabels
  * @param criteria The algorithm termination criteria, that is, the maximum
  * number of iterations and/or the desired accuracy. The accuracy is specified
@@ -4211,8 +4266,15 @@ public class Core {
  * them with the (<code>flags</code> = <code>KMEANS_USE_INITIAL_LABELS</code>)
  * flag, and then choose the best (most-compact) clustering.</p>
  *
- * @param data a data
- * @param K a K
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example on K-means clustering can be found at opencv_source_code/samples/cpp/kmeans.cpp
+ *   <li> (Python) An example on K-means clustering can be found at
+ * opencv_source_code/samples/python2/kmeans.py
+ * </ul>
+ *
+ * @param data Data for clustering.
+ * @param K Number of clusters to split the set by.
  * @param bestLabels a bestLabels
  * @param criteria The algorithm termination criteria, that is, the maximum
  * number of iterations and/or the desired accuracy. The accuracy is specified
@@ -6567,6 +6629,19 @@ public class Core {
 
 
     //
+    // C++:  void setErrorVerbosity(bool verbose)
+    //
+
+    public static void setErrorVerbosity(boolean verbose)
+    {
+
+        setErrorVerbosity_0(verbose);
+
+        return;
+    }
+
+
+    //
     // C++:  void setIdentity(Mat& mtx, Scalar s = Scalar(1))
     //
 
@@ -7699,8 +7774,6 @@ public class Core {
  *
  * <p>// C++ code:</p>
  *
- * <p>// Use "y" to show that the baseLine is about</p>
- *
  * <p>string text = "Funny text inside the box";</p>
  *
  * <p>int fontFace = FONT_HERSHEY_SCRIPT_SIMPLEX;</p>
@@ -8109,6 +8182,9 @@ public class Core {
 
     // C++:  void scaleAdd(Mat src1, double alpha, Mat src2, Mat& dst)
     private static native void scaleAdd_0(long src1_nativeObj, double alpha, long src2_nativeObj, long dst_nativeObj);
+
+    // C++:  void setErrorVerbosity(bool verbose)
+    private static native void setErrorVerbosity_0(boolean verbose);
 
     // C++:  void setIdentity(Mat& mtx, Scalar s = Scalar(1))
     private static native void setIdentity_0(long mtx_nativeObj, double s_val0, double s_val1, double s_val2, double s_val3);

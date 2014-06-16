@@ -119,6 +119,7 @@ public class FeatureDetector {
  *   <li> <code>"SIFT"</code> -- "SIFT" (nonfree module)
  *   <li> <code>"SURF"</code> -- "SURF" (nonfree module)
  *   <li> <code>"ORB"</code> -- "ORB"
+ *   <li> <code>"BRISK"</code> -- "BRISK"
  *   <li> <code>"MSER"</code> -- "MSER"
  *   <li> <code>"GFTT"</code> -- "GoodFeaturesToTrackDetector"
  *   <li> <code>"HARRIS"</code> -- "GoodFeaturesToTrackDetector" with Harris

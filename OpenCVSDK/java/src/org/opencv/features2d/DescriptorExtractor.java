@@ -81,7 +81,7 @@ public class DescriptorExtractor {
 
 
     //
-    // C++:  void javaDescriptorExtractor::compute(Mat image, vector_KeyPoint keypoints, Mat descriptors)
+    // C++:  void javaDescriptorExtractor::compute(Mat image, vector_KeyPoint& keypoints, Mat descriptors)
     //
 
 /**
@@ -110,7 +110,7 @@ public class DescriptorExtractor {
 
 
     //
-    // C++:  void javaDescriptorExtractor::compute(vector_Mat images, vector_vector_KeyPoint keypoints, vector_Mat& descriptors)
+    // C++:  void javaDescriptorExtractor::compute(vector_Mat images, vector_vector_KeyPoint& keypoints, vector_Mat& descriptors)
     //
 
 /**
@@ -136,6 +136,7 @@ public class DescriptorExtractor {
         Mat keypoints_mat = Converters.vector_vector_KeyPoint_to_Mat(keypoints, keypoints_tmplm);
         Mat descriptors_mat = new Mat();
         compute_1(nativeObj, images_mat.nativeObj, keypoints_mat.nativeObj, descriptors_mat.nativeObj);
+        Converters.Mat_to_vector_vector_KeyPoint(keypoints_mat, keypoints);
         Converters.Mat_to_vector_Mat(descriptors_mat, descriptors);
         return;
     }
@@ -153,8 +154,10 @@ public class DescriptorExtractor {
  * <ul>
  *   <li> <code>"SIFT"</code> -- "SIFT"
  *   <li> <code>"SURF"</code> -- "SURF"
- *   <li> <code>"ORB"</code> -- "ORB"
  *   <li> <code>"BRIEF"</code> -- "BriefDescriptorExtractor"
+ *   <li> <code>"BRISK"</code> -- "BRISK"
+ *   <li> <code>"ORB"</code> -- "ORB"
+ *   <li> <code>"FREAK"</code> -- "FREAK"
  * </ul>
  *
  * <p>A combined format is also supported: descriptor extractor adapter name
@@ -246,10 +249,10 @@ public class DescriptorExtractor {
 
 
 
-    // C++:  void javaDescriptorExtractor::compute(Mat image, vector_KeyPoint keypoints, Mat descriptors)
+    // C++:  void javaDescriptorExtractor::compute(Mat image, vector_KeyPoint& keypoints, Mat descriptors)
     private static native void compute_0(long nativeObj, long image_nativeObj, long keypoints_mat_nativeObj, long descriptors_nativeObj);
 
-    // C++:  void javaDescriptorExtractor::compute(vector_Mat images, vector_vector_KeyPoint keypoints, vector_Mat& descriptors)
+    // C++:  void javaDescriptorExtractor::compute(vector_Mat images, vector_vector_KeyPoint& keypoints, vector_Mat& descriptors)
     private static native void compute_1(long nativeObj, long images_mat_nativeObj, long keypoints_mat_nativeObj, long descriptors_mat_nativeObj);
 
     // C++: static javaDescriptorExtractor* javaDescriptorExtractor::create(int extractorType)

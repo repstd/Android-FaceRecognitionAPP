@@ -344,7 +344,19 @@ public class Imgproc {
             COLOR_YUV2GRAY_YUNV = COLOR_YUV2GRAY_YUY2,
             COLOR_RGBA2mRGBA = 125,
             COLOR_mRGBA2RGBA = 126,
-            COLOR_COLORCVT_MAX = 127,
+            COLOR_RGB2YUV_I420 = 127,
+            COLOR_BGR2YUV_I420 = 128,
+            COLOR_RGB2YUV_IYUV = COLOR_RGB2YUV_I420,
+            COLOR_BGR2YUV_IYUV = COLOR_BGR2YUV_I420,
+            COLOR_RGBA2YUV_I420 = 129,
+            COLOR_BGRA2YUV_I420 = 130,
+            COLOR_RGBA2YUV_IYUV = COLOR_RGBA2YUV_I420,
+            COLOR_BGRA2YUV_IYUV = COLOR_BGRA2YUV_I420,
+            COLOR_RGB2YUV_YV12 = 131,
+            COLOR_BGR2YUV_YV12 = 132,
+            COLOR_RGBA2YUV_YV12 = 133,
+            COLOR_BGRA2YUV_YV12 = 134,
+            COLOR_COLORCVT_MAX = 135,
             TM_SQDIFF = 0,
             TM_SQDIFF_NORMED = 1,
             TM_CCORR = 2,
@@ -374,6 +386,14 @@ public class Imgproc {
  * value between <code>threshold1</code> and <code>threshold2</code> is used for
  * edge linking. The largest value is used to find initial segments of strong
  * edges. See http://en.wikipedia.org/wiki/Canny_edge_detector</p>
+ *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example on using the canny edge detector can be found at
+ * opencv_source_code/samples/cpp/edge.cpp
+ *   <li> (Python) An example on using the canny edge detector can be found at
+ * opencv_source_code/samples/python/edge.py
+ * </ul>
  *
  * @param image single-channel 8-bit input image.
  * @param edges output edge map; it has the same size and type as
@@ -405,6 +425,14 @@ public class Imgproc {
  * value between <code>threshold1</code> and <code>threshold2</code> is used for
  * edge linking. The largest value is used to find initial segments of strong
  * edges. See http://en.wikipedia.org/wiki/Canny_edge_detector</p>
+ *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example on using the canny edge detector can be found at
+ * opencv_source_code/samples/cpp/edge.cpp
+ *   <li> (Python) An example on using the canny edge detector can be found at
+ * opencv_source_code/samples/python/edge.py
+ * </ul>
  *
  * @param image single-channel 8-bit input image.
  * @param edges output edge map; it has the same size and type as
@@ -612,6 +640,12 @@ public class Imgproc {
  * find the correct radius using an additional procedure.
  * </code></p>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using the Hough circle detector can be found at
+ * opencv_source_code/samples/cpp/houghcircles.cpp
+ * </ul>
+ *
  * @param image 8-bit, single-channel, grayscale input image.
  * @param circles Output vector of found circles. Each vector is encoded as a
  * 3-element floating-point vector <em>(x, y, radius)</em>.
@@ -716,6 +750,12 @@ public class Imgproc {
  * find the correct radius using an additional procedure.
  * </code></p>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using the Hough circle detector can be found at
+ * opencv_source_code/samples/cpp/houghcircles.cpp
+ * </ul>
+ *
  * @param image 8-bit, single-channel, grayscale input image.
  * @param circles Output vector of found circles. Each vector is encoded as a
  * 3-element floating-point vector <em>(x, y, radius)</em>.
@@ -756,6 +796,12 @@ public class Imgproc {
  * for a good explanation of Hough transform.
  * See also the example in "HoughLinesP" description.</p>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using the Hough line detector can be found at
+ * opencv_source_code/samples/cpp/houghlines.cpp
+ * </ul>
+ *
  * @param image 8-bit, single-channel binary source image. The image may be
  * modified by the function.
  * @param lines Output vector of lines. Each line is represented by a
@@ -793,6 +839,12 @@ public class Imgproc {
  * algorithm for line detection. See http://homepages.inf.ed.ac.uk/rbf/HIPR2/hough.htm
  * for a good explanation of Hough transform.
  * See also the example in "HoughLinesP" description.</p>
+ *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using the Hough line detector can be found at
+ * opencv_source_code/samples/cpp/houghlines.cpp
+ * </ul>
  *
  * @param image 8-bit, single-channel binary source image. The image may be
  * modified by the function.
@@ -1129,6 +1181,12 @@ public class Imgproc {
  *
  * <p><em>vecthreethree 0101(-4)1010</em></p>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using the Laplace transformation for edge detection can be
+ * found at opencv_source_code/samples/cpp/laplace.cpp
+ * </ul>
+ *
  * @param src Source image.
  * @param dst Destination image of the same size and the same number of channels
  * as <code>src</code>.
@@ -1168,6 +1226,12 @@ public class Imgproc {
  *
  * <p><em>vecthreethree 0101(-4)1010</em></p>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using the Laplace transformation for edge detection can be
+ * found at opencv_source_code/samples/cpp/laplace.cpp
+ * </ul>
+ *
  * @param src Source image.
  * @param dst Destination image of the same size and the same number of channels
  * as <code>src</code>.
@@ -1204,6 +1268,12 @@ public class Imgproc {
  * 3</em> aperture:</p>
  *
  * <p><em>vecthreethree 0101(-4)1010</em></p>
+ *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using the Laplace transformation for edge detection can be
+ * found at opencv_source_code/samples/cpp/laplace.cpp
+ * </ul>
  *
  * @param src Source image.
  * @param dst Destination image of the same size and the same number of channels
@@ -1895,6 +1965,119 @@ public class Imgproc {
 
 
     //
+    // C++:  void adaptiveBilateralFilter(Mat src, Mat& dst, Size ksize, double sigmaSpace, double maxSigmaColor = 20.0, Point anchor = Point(-1, -1), int borderType = BORDER_DEFAULT)
+    //
+
+/**
+ * <p>Applies the adaptive bilateral filter to an image.</p>
+ *
+ * <p>A main part of our strategy will be to load each raw pixel once, and reuse it
+ * to calculate all pixels in the output (filtered) image that need this pixel
+ * value. The math of the filter is that of the usual bilateral filter, except
+ * that the sigma color is calculated in the neighborhood, and clamped by the
+ * optional input value.</p>
+ *
+ * @param src The source image
+ * @param dst The destination image; will have the same size and the same type
+ * as src
+ * @param ksize The kernel size. This is the neighborhood where the local
+ * variance will be calculated, and where pixels will contribute (in a weighted
+ * manner).
+ * @param sigmaSpace Filter sigma in the coordinate space. Larger value of the
+ * parameter means that farther pixels will influence each other (as long as
+ * their colors are close enough; see sigmaColor). Then d>0, it specifies the
+ * neighborhood size regardless of sigmaSpace, otherwise d is proportional to
+ * sigmaSpace.
+ * @param maxSigmaColor Maximum allowed sigma color (will clamp the value
+ * calculated in the ksize neighborhood. Larger value of the parameter means
+ * that more dissimilar pixels will influence each other (as long as their
+ * colors are close enough; see sigmaColor). Then d>0, it specifies the
+ * neighborhood size regardless of sigmaSpace, otherwise d is proportional to
+ * sigmaSpace.
+ * @param anchor a anchor
+ * @param borderType Pixel extrapolation method.
+ *
+ * @see <a href="http://docs.opencv.org/modules/imgproc/doc/filtering.html#adaptivebilateralfilter">org.opencv.imgproc.Imgproc.adaptiveBilateralFilter</a>
+ */
+    public static void adaptiveBilateralFilter(Mat src, Mat dst, Size ksize, double sigmaSpace, double maxSigmaColor, Point anchor, int borderType)
+    {
+
+        adaptiveBilateralFilter_0(src.nativeObj, dst.nativeObj, ksize.width, ksize.height, sigmaSpace, maxSigmaColor, anchor.x, anchor.y, borderType);
+
+        return;
+    }
+
+/**
+ * <p>Applies the adaptive bilateral filter to an image.</p>
+ *
+ * <p>A main part of our strategy will be to load each raw pixel once, and reuse it
+ * to calculate all pixels in the output (filtered) image that need this pixel
+ * value. The math of the filter is that of the usual bilateral filter, except
+ * that the sigma color is calculated in the neighborhood, and clamped by the
+ * optional input value.</p>
+ *
+ * @param src The source image
+ * @param dst The destination image; will have the same size and the same type
+ * as src
+ * @param ksize The kernel size. This is the neighborhood where the local
+ * variance will be calculated, and where pixels will contribute (in a weighted
+ * manner).
+ * @param sigmaSpace Filter sigma in the coordinate space. Larger value of the
+ * parameter means that farther pixels will influence each other (as long as
+ * their colors are close enough; see sigmaColor). Then d>0, it specifies the
+ * neighborhood size regardless of sigmaSpace, otherwise d is proportional to
+ * sigmaSpace.
+ * @param maxSigmaColor Maximum allowed sigma color (will clamp the value
+ * calculated in the ksize neighborhood. Larger value of the parameter means
+ * that more dissimilar pixels will influence each other (as long as their
+ * colors are close enough; see sigmaColor). Then d>0, it specifies the
+ * neighborhood size regardless of sigmaSpace, otherwise d is proportional to
+ * sigmaSpace.
+ * @param anchor a anchor
+ *
+ * @see <a href="http://docs.opencv.org/modules/imgproc/doc/filtering.html#adaptivebilateralfilter">org.opencv.imgproc.Imgproc.adaptiveBilateralFilter</a>
+ */
+    public static void adaptiveBilateralFilter(Mat src, Mat dst, Size ksize, double sigmaSpace, double maxSigmaColor, Point anchor)
+    {
+
+        adaptiveBilateralFilter_1(src.nativeObj, dst.nativeObj, ksize.width, ksize.height, sigmaSpace, maxSigmaColor, anchor.x, anchor.y);
+
+        return;
+    }
+
+/**
+ * <p>Applies the adaptive bilateral filter to an image.</p>
+ *
+ * <p>A main part of our strategy will be to load each raw pixel once, and reuse it
+ * to calculate all pixels in the output (filtered) image that need this pixel
+ * value. The math of the filter is that of the usual bilateral filter, except
+ * that the sigma color is calculated in the neighborhood, and clamped by the
+ * optional input value.</p>
+ *
+ * @param src The source image
+ * @param dst The destination image; will have the same size and the same type
+ * as src
+ * @param ksize The kernel size. This is the neighborhood where the local
+ * variance will be calculated, and where pixels will contribute (in a weighted
+ * manner).
+ * @param sigmaSpace Filter sigma in the coordinate space. Larger value of the
+ * parameter means that farther pixels will influence each other (as long as
+ * their colors are close enough; see sigmaColor). Then d>0, it specifies the
+ * neighborhood size regardless of sigmaSpace, otherwise d is proportional to
+ * sigmaSpace.
+ *
+ * @see <a href="http://docs.opencv.org/modules/imgproc/doc/filtering.html#adaptivebilateralfilter">org.opencv.imgproc.Imgproc.adaptiveBilateralFilter</a>
+ */
+    public static void adaptiveBilateralFilter(Mat src, Mat dst, Size ksize, double sigmaSpace)
+    {
+
+        adaptiveBilateralFilter_2(src.nativeObj, dst.nativeObj, ksize.width, ksize.height, sigmaSpace);
+
+        return;
+    }
+
+
+    //
     // C++:  void adaptiveThreshold(Mat src, Mat& dst, double maxValue, int adaptiveMethod, int thresholdType, int blockSize, double C)
     //
 
@@ -1970,7 +2153,7 @@ public class Imgproc {
  * less or equal to the specified precision. It uses the Douglas-Peucker
  * algorithm http://en.wikipedia.org/wiki/Ramer-Douglas-Peucker_algorithm</p>
  *
- * <p>See http://code.opencv.org/projects/opencv/repository/revisions/master/entry/samples/cpp/contours.cpp
+ * <p>See https://github.com/Itseez/opencv/tree/master/samples/cpp/contours2.cpp
  * for the function usage model.</p>
  *
  * @param curve Input vector of a 2D point stored in:
@@ -2327,7 +2510,7 @@ public class Imgproc {
  *
  * @param src input image.
  * @param dst output image of the same size and type as <code>src</code>.
- * @param ddepth a ddepth
+ * @param ddepth the output image depth (-1 to use <code>src.depth()</code>).
  * @param ksize blurring kernel size.
  * @param anchor anchor point; default value <code>Point(-1,-1)</code> means
  * that the anchor is at the kernel center.
@@ -2372,7 +2555,7 @@ public class Imgproc {
  *
  * @param src input image.
  * @param dst output image of the same size and type as <code>src</code>.
- * @param ddepth a ddepth
+ * @param ddepth the output image depth (-1 to use <code>src.depth()</code>).
  * @param ksize blurring kernel size.
  * @param anchor anchor point; default value <code>Point(-1,-1)</code> means
  * that the anchor is at the kernel center.
@@ -2415,7 +2598,7 @@ public class Imgproc {
  *
  * @param src input image.
  * @param dst output image of the same size and type as <code>src</code>.
- * @param ddepth a ddepth
+ * @param ddepth the output image depth (-1 to use <code>src.depth()</code>).
  * @param ksize blurring kernel size.
  *
  * @see <a href="http://docs.opencv.org/modules/imgproc/doc/filtering.html#boxfilter">org.opencv.imgproc.Imgproc.boxFilter</a>
@@ -2596,6 +2779,16 @@ public class Imgproc {
  * <p>waitKey();</p>
  *
  *
+ * <p>Note: </code></p>
+ * <ul>
+ *   <li> An example for creating histograms of an image can be found at
+ * opencv_source_code/samples/cpp/demhist.cpp
+ *   <li> (Python) An example for creating color histograms can be found at
+ * opencv_source/samples/python2/color_histogram.py
+ *   <li> (Python) An example illustrating RGB and grayscale histogram plotting
+ * can be found at opencv_source/samples/python2/hist.py
+ * </ul>
+ *
  * @param images Source arrays. They all should have the same depth,
  * <code>CV_8U</code> or <code>CV_32F</code>, and the same size. Each of them
  * can have an arbitrary number of channels.
@@ -2737,6 +2930,16 @@ public class Imgproc {
  *
  * <p>waitKey();</p>
  *
+ *
+ * <p>Note: </code></p>
+ * <ul>
+ *   <li> An example for creating histograms of an image can be found at
+ * opencv_source_code/samples/cpp/demhist.cpp
+ *   <li> (Python) An example for creating color histograms can be found at
+ * opencv_source/samples/python2/color_histogram.py
+ *   <li> (Python) An example illustrating RGB and grayscale histogram plotting
+ * can be found at opencv_source/samples/python2/hist.py
+ * </ul>
  *
  * @param images Source arrays. They all should have the same depth,
  * <code>CV_8U</code> or <code>CV_32F</code>, and the same size. Each of them
@@ -3064,6 +3267,12 @@ public class Imgproc {
  * implementation. See the OpenCV sample <code>convexhull.cpp</code> that
  * demonstrates the usage of different function variants.</p>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using the convexHull functionality can be found at
+ * opencv_source_code/samples/cpp/convexhull.cpp
+ * </ul>
+ *
  * @param points Input 2D point set, stored in <code>std.vector</code> or
  * <code>Mat</code>.
  * @param hull Output convex hull. It is either an integer vector of indices or
@@ -3073,9 +3282,9 @@ public class Imgproc {
  * second case, <code>hull</code> elements are the convex hull points
  * themselves.
  * @param clockwise Orientation flag. If it is true, the output convex hull is
- * oriented clockwise. Otherwise, it is oriented counter-clockwise. The usual
- * screen coordinate system is assumed so that the origin is at the top-left
- * corner, x axis is oriented to the right, and y axis is oriented downwards.
+ * oriented clockwise. Otherwise, it is oriented counter-clockwise. The assumed
+ * coordinate system has its X axis pointing to the right, and its Y axis
+ * pointing upwards.
  *
  * @see <a href="http://docs.opencv.org/modules/imgproc/doc/structural_analysis_and_shape_descriptors.html#convexhull">org.opencv.imgproc.Imgproc.convexHull</a>
  */
@@ -3095,6 +3304,12 @@ public class Imgproc {
  * algorithm [Sklansky82] that has *O(N logN)* complexity in the current
  * implementation. See the OpenCV sample <code>convexhull.cpp</code> that
  * demonstrates the usage of different function variants.</p>
+ *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using the convexHull functionality can be found at
+ * opencv_source_code/samples/cpp/convexhull.cpp
+ * </ul>
  *
  * @param points Input 2D point set, stored in <code>std.vector</code> or
  * <code>Mat</code>.
@@ -3346,6 +3561,12 @@ public class Imgproc {
  *
  * <p>The output of the function can be used for robust edge or corner detection.</p>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> (Python) An example on how to use eigenvectors and eigenvalues to
+ * estimate image texture flow direction can be found at opencv_source_code/samples/python2/texture_flow.py
+ * </ul>
+ *
  * @param src Input single-channel 8-bit or floating-point image.
  * @param dst Image to store the results. It has the same size as
  * <code>src</code> and the type <code>CV_32FC(6)</code>.
@@ -3392,6 +3613,12 @@ public class Imgproc {
  * </ul>
  *
  * <p>The output of the function can be used for robust edge or corner detection.</p>
+ *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> (Python) An example on how to use eigenvectors and eigenvalues to
+ * estimate image texture flow direction can be found at opencv_source_code/samples/python2/texture_flow.py
+ * </ul>
  *
  * @param src Input single-channel 8-bit or floating-point image.
  * @param dst Image to store the results. It has the same size as
@@ -3617,6 +3844,13 @@ public class Imgproc {
 
 
     //
+    // C++:  Ptr_CLAHE createCLAHE(double clipLimit = 40.0, Size tileGridSize = Size(8, 8))
+    //
+
+    // Return type 'Ptr_CLAHE' is not supported, skipping the function
+
+
+    //
     // C++:  void createHanningWindow(Mat& dst, Size winSize, int type)
     //
 
@@ -3698,9 +3932,10 @@ public class Imgproc {
  *
  * <p>The function can do the following transformations:</p>
  * <ul>
- *   <li> Transformations within RGB space like adding/removing the alpha
- * channel, reversing the channel order, conversion to/from 16-bit RGB color
- * (R5:G6:B5 or R5:G5:B5), as well as conversion to/from grayscale using:
+ *   <li> RGB <em><-></em> GRAY (<code>CV_BGR2GRAY, CV_RGB2GRAY, CV_GRAY2BGR,
+ * CV_GRAY2RGB</code>) Transformations within RGB space like adding/removing the
+ * alpha channel, reversing the channel order, conversion to/from 16-bit RGB
+ * color (R5:G6:B5 or R5:G5:B5), as well as conversion to/from grayscale using:
  * </ul>
  *
  * <p><em>RGB[A] to Gray: Y <- 0.299 * R + 0.587 * G + 0.114 * B</em></p>
@@ -3762,7 +3997,7 @@ public class Imgproc {
  *
  *
  *
- * <p><em>G <- Y - 0.344 * (Cr - delta) - 0.714 * (Cb - delta)</em></p>
+ * <p><em>G <- Y - 0.714 * (Cr - delta) - 0.344 * (Cb - delta)</em></p>
  *
  *
  *
@@ -4050,9 +4285,10 @@ public class Imgproc {
  *
  * <p>The function can do the following transformations:</p>
  * <ul>
- *   <li> Transformations within RGB space like adding/removing the alpha
- * channel, reversing the channel order, conversion to/from 16-bit RGB color
- * (R5:G6:B5 or R5:G5:B5), as well as conversion to/from grayscale using:
+ *   <li> RGB <em><-></em> GRAY (<code>CV_BGR2GRAY, CV_RGB2GRAY, CV_GRAY2BGR,
+ * CV_GRAY2RGB</code>) Transformations within RGB space like adding/removing the
+ * alpha channel, reversing the channel order, conversion to/from 16-bit RGB
+ * color (R5:G6:B5 or R5:G5:B5), as well as conversion to/from grayscale using:
  * </ul>
  *
  * <p><em>RGB[A] to Gray: Y <- 0.299 * R + 0.587 * G + 0.114 * B</em></p>
@@ -4114,7 +4350,7 @@ public class Imgproc {
  *
  *
  *
- * <p><em>G <- Y - 0.344 * (Cr - delta) - 0.714 * (Cb - delta)</em></p>
+ * <p><em>G <- Y - 0.714 * (Cr - delta) - 0.344 * (Cb - delta)</em></p>
  *
  *
  *
@@ -4374,6 +4610,12 @@ public class Imgproc {
  * (<code>iterations</code>) times. In case of multi-channel images, each
  * channel is processed independently.</p>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using the morphological dilate operation can be found at
+ * opencv_source_code/samples/cpp/morphology2.cpp
+ * </ul>
+ *
  * @param src input image; the number of channels can be arbitrary, but the
  * depth should be one of <code>CV_8U</code>, <code>CV_16U</code>,
  * <code>CV_16S</code>, <code>CV_32F" or </code>CV_64F".
@@ -4412,6 +4654,12 @@ public class Imgproc {
  * (<code>iterations</code>) times. In case of multi-channel images, each
  * channel is processed independently.</p>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using the morphological dilate operation can be found at
+ * opencv_source_code/samples/cpp/morphology2.cpp
+ * </ul>
+ *
  * @param src input image; the number of channels can be arbitrary, but the
  * depth should be one of <code>CV_8U</code>, <code>CV_16U</code>,
  * <code>CV_16S</code>, <code>CV_32F" or </code>CV_64F".
@@ -4445,6 +4693,12 @@ public class Imgproc {
  * <p>The function supports the in-place mode. Dilation can be applied several
  * (<code>iterations</code>) times. In case of multi-channel images, each
  * channel is processed independently.</p>
+ *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using the morphological dilate operation can be found at
+ * opencv_source_code/samples/cpp/morphology2.cpp
+ * </ul>
  *
  * @param src input image; the number of channels can be arbitrary, but the
  * depth should be one of <code>CV_8U</code>, <code>CV_16U</code>,
@@ -4528,6 +4782,14 @@ public class Imgproc {
  * Currently, the second variant can use only the approximate distance transform
  * algorithm, i.e. <code>maskSize=CV_DIST_MASK_PRECISE</code> is not supported
  * yet.</p>
+ *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example on using the distance transform can be found at
+ * opencv_source_code/samples/cpp/distrans.cpp
+ *   <li> (Python) An example on using the distance transform can be found at
+ * opencv_source/samples/python2/distrans.py
+ * </ul>
  *
  * @param src 8-bit, single-channel (binary) source image.
  * @param dst Output image with calculated distances. It is a 32-bit
@@ -4614,6 +4876,14 @@ public class Imgproc {
  * Currently, the second variant can use only the approximate distance transform
  * algorithm, i.e. <code>maskSize=CV_DIST_MASK_PRECISE</code> is not supported
  * yet.</p>
+ *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example on using the distance transform can be found at
+ * opencv_source_code/samples/cpp/distrans.cpp
+ *   <li> (Python) An example on using the distance transform can be found at
+ * opencv_source/samples/python2/distrans.py
+ * </ul>
  *
  * @param src 8-bit, single-channel (binary) source image.
  * @param dst Output image with calculated distances. It is a 32-bit
@@ -4703,6 +4973,14 @@ public class Imgproc {
  * Currently, the second variant can use only the approximate distance transform
  * algorithm, i.e. <code>maskSize=CV_DIST_MASK_PRECISE</code> is not supported
  * yet.</p>
+ *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example on using the distance transform can be found at
+ * opencv_source_code/samples/cpp/distrans.cpp
+ *   <li> (Python) An example on using the distance transform can be found at
+ * opencv_source/samples/python2/distrans.py
+ * </ul>
  *
  * @param src 8-bit, single-channel (binary) source image.
  * @param dst Output image with calculated distances. It is a 32-bit
@@ -4798,6 +5076,16 @@ public class Imgproc {
  *
  * <p>waitKey(0);</p>
  *
+ *
+ * <p>Note: </code></p>
+ * <ul>
+ *   <li> An example using the drawContour functionality can be found at
+ * opencv_source_code/samples/cpp/contours2.cpp
+ *   <li> An example using drawContours to clean up a background segmentation
+ * result at opencv_source_code/samples/cpp/segment_objects.cpp
+ *   <li> (Python) An example using the drawContour functionality can be found
+ * at opencv_source/samples/python2/contours.py
+ * </ul>
  *
  * @param image Destination image.
  * @param contours All the input contours. Each contour is stored as a point
@@ -4896,6 +5184,16 @@ public class Imgproc {
  * <p>waitKey(0);</p>
  *
  *
+ * <p>Note: </code></p>
+ * <ul>
+ *   <li> An example using the drawContour functionality can be found at
+ * opencv_source_code/samples/cpp/contours2.cpp
+ *   <li> An example using drawContours to clean up a background segmentation
+ * result at opencv_source_code/samples/cpp/segment_objects.cpp
+ *   <li> (Python) An example using the drawContour functionality can be found
+ * at opencv_source/samples/python2/contours.py
+ * </ul>
+ *
  * @param image Destination image.
  * @param contours All the input contours. Each contour is stored as a point
  * vector.
@@ -4983,6 +5281,16 @@ public class Imgproc {
  * <p>waitKey(0);</p>
  *
  *
+ * <p>Note: </code></p>
+ * <ul>
+ *   <li> An example using the drawContour functionality can be found at
+ * opencv_source_code/samples/cpp/contours2.cpp
+ *   <li> An example using drawContours to clean up a background segmentation
+ * result at opencv_source_code/samples/cpp/segment_objects.cpp
+ *   <li> (Python) An example using the drawContour functionality can be found
+ * at opencv_source/samples/python2/contours.py
+ * </ul>
+ *
  * @param image Destination image.
  * @param contours All the input contours. Each contour is stored as a point
  * vector.
@@ -5059,6 +5367,12 @@ public class Imgproc {
  * (<code>iterations</code>) times. In case of multi-channel images, each
  * channel is processed independently.</p>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using the morphological erode operation can be found at
+ * opencv_source_code/samples/cpp/morphology2.cpp
+ * </ul>
+ *
  * @param src input image; the number of channels can be arbitrary, but the
  * depth should be one of <code>CV_8U</code>, <code>CV_16U</code>,
  * <code>CV_16S</code>, <code>CV_32F" or </code>CV_64F".
@@ -5097,6 +5411,12 @@ public class Imgproc {
  * (<code>iterations</code>) times. In case of multi-channel images, each
  * channel is processed independently.</p>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using the morphological erode operation can be found at
+ * opencv_source_code/samples/cpp/morphology2.cpp
+ * </ul>
+ *
  * @param src input image; the number of channels can be arbitrary, but the
  * depth should be one of <code>CV_8U</code>, <code>CV_16U</code>,
  * <code>CV_16S</code>, <code>CV_32F" or </code>CV_64F".
@@ -5130,6 +5450,12 @@ public class Imgproc {
  * <p>The function supports the in-place mode. Erosion can be applied several
  * (<code>iterations</code>) times. In case of multi-channel images, each
  * channel is processed independently.</p>
+ *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using the morphological erode operation can be found at
+ * opencv_source_code/samples/cpp/morphology2.cpp
+ * </ul>
  *
  * @param src input image; the number of channels can be arbitrary, but the
  * depth should be one of <code>CV_8U</code>, <code>CV_16U</code>,
@@ -5365,6 +5691,18 @@ public class Imgproc {
  * the <code>CV_</code> prefix (for example, use <code>cv.CV_RETR_LIST</code>
  * and <code>cv.CV_CHAIN_APPROX_NONE</code>).</p>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using the findContour functionality can be found at
+ * opencv_source_code/samples/cpp/contours2.cpp
+ *   <li> An example using findContours to clean up a background segmentation
+ * result at opencv_source_code/samples/cpp/segment_objects.cpp
+ *   <li> (Python) An example using the findContour functionality can be found
+ * at opencv_source/samples/python2/contours.py
+ *   <li> (Python) An example of detecting squares in an image can be found at
+ * opencv_source/samples/python2/squares.py
+ * </ul>
+ *
  * @param image Source, an 8-bit single-channel image. Non-zero pixels are
  * treated as 1's. Zero pixels remain 0's, so the image is treated as
  * <code>binary</code>. You can use "compare", "inRange", "threshold",
@@ -5445,6 +5783,18 @@ public class Imgproc {
  * the <code>CV_</code> prefix (for example, use <code>cv.CV_RETR_LIST</code>
  * and <code>cv.CV_CHAIN_APPROX_NONE</code>).</p>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using the findContour functionality can be found at
+ * opencv_source_code/samples/cpp/contours2.cpp
+ *   <li> An example using findContours to clean up a background segmentation
+ * result at opencv_source_code/samples/cpp/segment_objects.cpp
+ *   <li> (Python) An example using the findContour functionality can be found
+ * at opencv_source/samples/python2/contours.py
+ *   <li> (Python) An example of detecting squares in an image can be found at
+ * opencv_source/samples/python2/squares.py
+ * </ul>
+ *
  * @param image Source, an 8-bit single-channel image. Non-zero pixels are
  * treated as 1's. Zero pixels remain 0's, so the image is treated as
  * <code>binary</code>. You can use "compare", "inRange", "threshold",
@@ -5512,7 +5862,16 @@ public class Imgproc {
  *
  * <p>The function calculates the ellipse that fits (in a least-squares sense) a
  * set of 2D points best of all. It returns the rotated rectangle in which the
- * ellipse is inscribed. The algorithm [Fitzgibbon95] is used.</p>
+ * ellipse is inscribed. The algorithm [Fitzgibbon95] is used.
+ * Developer should keep in mind that it is possible that the returned
+ * ellipse/rotatedRect data contains negative indices, due to the data points
+ * being close to the border of the containing Mat element.</p>
+ *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using the fitEllipse technique can be found at
+ * opencv_source_code/samples/cpp/fitellipse.cpp
+ * </ul>
  *
  * @param points Input 2D point set, stored in:
  * <ul>
@@ -5582,7 +5941,11 @@ public class Imgproc {
  * <p>The algorithm is based on the M-estimator (http://en.wikipedia.org/wiki/M-estimator)
  * technique that iteratively fits the line using the weighted least-squares
  * algorithm. After each iteration the weights <em>w_i</em> are adjusted to be
- * inversely proportional to <em>rho(r_i)</em>.</p>
+ * inversely proportional to <em>rho(r_i)</em>... Sample code:</p>
+ * <ul>
+ *   <li> (Python) An example of robust line fitting can be found at
+ * opencv_source_code/samples/python2/fitline.py
+ * </ul>
  *
  * @param points Input vector of 2D or 3D points, stored in <code>std.vector<></code>
  * or <code>Mat</code>.
@@ -5678,8 +6041,15 @@ public class Imgproc {
  *
  * <p>Use these functions to either mark a connected component with the specified
  * color in-place, or build a mask and then extract the contour, or copy the
- * region to another image, and so on. Various modes of the function are
- * demonstrated in the <code>floodfill.cpp</code> sample.</p>
+ * region to another image, and so on.</p>
+ *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using the FloodFill technique can be found at
+ * opencv_source_code/samples/cpp/ffilldemo.cpp
+ *   <li> (Python) An example using the FloodFill technique can be found at
+ * opencv_source_code/samples/python2/floodfill.cpp
+ * </ul>
  *
  * @param image Input/output 1- or 3-channel, 8-bit, or floating-point image. It
  * is modified by the function unless the <code>FLOODFILL_MASK_ONLY</code> flag
@@ -5790,8 +6160,15 @@ public class Imgproc {
  *
  * <p>Use these functions to either mark a connected component with the specified
  * color in-place, or build a mask and then extract the contour, or copy the
- * region to another image, and so on. Various modes of the function are
- * demonstrated in the <code>floodfill.cpp</code> sample.</p>
+ * region to another image, and so on.</p>
+ *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using the FloodFill technique can be found at
+ * opencv_source_code/samples/cpp/ffilldemo.cpp
+ *   <li> (Python) An example using the FloodFill technique can be found at
+ * opencv_source_code/samples/python2/floodfill.cpp
+ * </ul>
  *
  * @param image Input/output 1- or 3-channel, 8-bit, or floating-point image. It
  * is modified by the function unless the <code>FLOODFILL_MASK_ONLY</code> flag
@@ -6488,6 +6865,14 @@ public class Imgproc {
  * (http://en.wikipedia.org/wiki/GrabCut).
  * See the sample <code>grabcut.cpp</code> to learn how to use the function.</p>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using the GrabCut algorithm can be found at
+ * opencv_source_code/samples/cpp/grabcut.cpp
+ *   <li> (Python) An example using the GrabCut algorithm can be found at
+ * opencv_source_code/samples/python2/grabcut.py
+ * </ul>
+ *
  * @param img Input 8-bit 3-channel image.
  * @param mask Input/output 8-bit single-channel mask. The mask is initialized
  * by the function when <code>mode</code> is set to <code>GC_INIT_WITH_RECT</code>.
@@ -6496,7 +6881,7 @@ public class Imgproc {
  *   <li> GC_BGD defines an obvious background pixels.
  *   <li> GC_FGD defines an obvious foreground (object) pixel.
  *   <li> GC_PR_BGD defines a possible background pixel.
- *   <li> GC_PR_BGD defines a possible foreground pixel.
+ *   <li> GC_PR_FGD defines a possible foreground pixel.
  * </ul>
  * @param rect ROI containing a segmented object. The pixels outside of the ROI
  * are marked as "obvious background". The parameter is only used when
@@ -6537,6 +6922,14 @@ public class Imgproc {
  * (http://en.wikipedia.org/wiki/GrabCut).
  * See the sample <code>grabcut.cpp</code> to learn how to use the function.</p>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using the GrabCut algorithm can be found at
+ * opencv_source_code/samples/cpp/grabcut.cpp
+ *   <li> (Python) An example using the GrabCut algorithm can be found at
+ * opencv_source_code/samples/python2/grabcut.py
+ * </ul>
+ *
  * @param img Input 8-bit 3-channel image.
  * @param mask Input/output 8-bit single-channel mask. The mask is initialized
  * by the function when <code>mode</code> is set to <code>GC_INIT_WITH_RECT</code>.
@@ -6545,7 +6938,7 @@ public class Imgproc {
  *   <li> GC_BGD defines an obvious background pixels.
  *   <li> GC_FGD defines an obvious foreground (object) pixel.
  *   <li> GC_PR_BGD defines a possible background pixel.
- *   <li> GC_PR_BGD defines a possible foreground pixel.
+ *   <li> GC_PR_FGD defines a possible foreground pixel.
  * </ul>
  * @param rect ROI containing a segmented object. The pixels outside of the ROI
  * are marked as "obvious background". The parameter is only used when
@@ -7197,6 +7590,12 @@ public class Imgproc {
  * take a color template and a color image. The result will still be a
  * single-channel image, which is easier to analyze.</p>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> (Python) An example on how to match mouse selected regions in an image
+ * can be found at opencv_source_code/samples/python2/mouse_and_match.py
+ * </ul>
+ *
  * @param image Image where the search is running. It must be 8-bit or 32-bit
  * floating-point.
  * @param templ Searched template. It must be not greater than the source image
@@ -7261,7 +7660,9 @@ public class Imgproc {
  *
  * <p>The function calculates and returns the minimum-area bounding rectangle
  * (possibly rotated) for a specified point set. See the OpenCV sample
- * <code>minarea.cpp</code>.</p>
+ * <code>minarea.cpp</code>.
+ * Developer should keep in mind that the returned rotatedRect can contain
+ * negative indices when data is close the the containing Mat element boundary.</p>
  *
  * @param points Input vector of 2D points, stored in:
  * <ul>
@@ -7529,6 +7930,12 @@ public class Imgproc {
  * <p>Any of the operations can be done in-place. In case of multi-channel images,
  * each channel is processed independently.</p>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using the morphologyEx function for the morphological
+ * opening and closing operations can be found at opencv_source_code/samples/cpp/morphology2.cpp
+ * </ul>
+ *
  * @param src Source image. The number of channels can be arbitrary. The depth
  * should be one of <code>CV_8U</code>, <code>CV_16U</code>, <code>CV_16S</code>,
  * <code>CV_32F" or </code>CV_64F".
@@ -7591,6 +7998,12 @@ public class Imgproc {
  * <p>Any of the operations can be done in-place. In case of multi-channel images,
  * each channel is processed independently.</p>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using the morphologyEx function for the morphological
+ * opening and closing operations can be found at opencv_source_code/samples/cpp/morphology2.cpp
+ * </ul>
+ *
  * @param src Source image. The number of channels can be arbitrary. The depth
  * should be one of <code>CV_8U</code>, <code>CV_16U</code>, <code>CV_16S</code>,
  * <code>CV_32F" or </code>CV_64F".
@@ -7648,6 +8061,12 @@ public class Imgproc {
  *
  * <p>Any of the operations can be done in-place. In case of multi-channel images,
  * each channel is processed independently.</p>
+ *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using the morphologyEx function for the morphological
+ * opening and closing operations can be found at opencv_source_code/samples/cpp/morphology2.cpp
+ * </ul>
  *
  * @param src Source image. The number of channels can be arbitrary. The depth
  * should be one of <code>CV_8U</code>, <code>CV_16U</code>, <code>CV_16S</code>,
@@ -8114,6 +8533,12 @@ public class Imgproc {
  * different from the ones obtained by running the meanshift procedure on the
  * whole original image (i.e. when <code>maxLevel==0</code>).</p>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using mean-shift image segmentation can be found at
+ * opencv_source_code/samples/cpp/meanshift_segmentation.cpp
+ * </ul>
+ *
  * @param src The source 8-bit, 3-channel image.
  * @param dst The destination image of the same format and the same size as the
  * source.
@@ -8170,6 +8595,12 @@ public class Imgproc {
  * different from the ones obtained by running the meanshift procedure on the
  * whole original image (i.e. when <code>maxLevel==0</code>).</p>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using mean-shift image segmentation can be found at
+ * opencv_source_code/samples/cpp/meanshift_segmentation.cpp
+ * </ul>
+ *
  * @param src The source 8-bit, 3-channel image.
  * @param dst The destination image of the same format and the same size as the
  * source.
@@ -8199,6 +8630,12 @@ public class Imgproc {
  * pyramid. First, it upsamples the source image by injecting even zero rows and
  * columns and then convolves the result with the same kernel as in "pyrDown"
  * multiplied by 4.</p>
+ *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> (Python) An example of Laplacian Pyramid construction and merging can
+ * be found at opencv_source_code/samples/python2/lappyr.py
+ * </ul>
  *
  * @param src input image.
  * @param dst output image. It has the specified size and the same type as
@@ -8230,6 +8667,12 @@ public class Imgproc {
  * columns and then convolves the result with the same kernel as in "pyrDown"
  * multiplied by 4.</p>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> (Python) An example of Laplacian Pyramid construction and merging can
+ * be found at opencv_source_code/samples/python2/lappyr.py
+ * </ul>
+ *
  * @param src input image.
  * @param dst output image. It has the specified size and the same type as
  * <code>src</code>.
@@ -8258,6 +8701,12 @@ public class Imgproc {
  * pyramid. First, it upsamples the source image by injecting even zero rows and
  * columns and then convolves the result with the same kernel as in "pyrDown"
  * multiplied by 4.</p>
+ *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> (Python) An example of Laplacian Pyramid construction and merging can
+ * be found at opencv_source_code/samples/python2/lappyr.py
+ * </ul>
  *
  * @param src input image.
  * @param dst output image. It has the specified size and the same type as
@@ -8538,8 +8987,8 @@ public class Imgproc {
  * as the source.</p>
  * @param kernelX Coefficients for filtering each row.
  * @param kernelY Coefficients for filtering each column.
- * @param anchor Anchor position within the kernel. The default value <em>(-1,
- * 1)</em> means that the anchor is at the kernel center.
+ * @param anchor Anchor position within the kernel. The default value
+ * <em>(-1,-1)</em> means that the anchor is at the kernel center.
  * @param delta Value added to the filtered results before storing them.
  * @param borderType Pixel extrapolation method. See "borderInterpolate" for
  * details.
@@ -8588,8 +9037,8 @@ public class Imgproc {
  * as the source.</p>
  * @param kernelX Coefficients for filtering each row.
  * @param kernelY Coefficients for filtering each column.
- * @param anchor Anchor position within the kernel. The default value <em>(-1,
- * 1)</em> means that the anchor is at the kernel center.
+ * @param anchor Anchor position within the kernel. The default value
+ * <em>(-1,-1)</em> means that the anchor is at the kernel center.
  * @param delta Value added to the filtered results before storing them.
  *
  * @see <a href="http://docs.opencv.org/modules/imgproc/doc/filtering.html#sepfilter2d">org.opencv.imgproc.Imgproc.sepFilter2D</a>
@@ -9254,6 +9703,14 @@ public class Imgproc {
  * a watershed boundary (-1's pixels); for example, they can touch each other in
  * the initial marker image passed to the function.</p>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example using the watershed algorithm can be found at
+ * opencv_source_code/samples/cpp/watershed.cpp
+ *   <li> (Python) An example using the watershed algorithm can be found at
+ * opencv_source_code/samples/python2/watershed.py
+ * </ul>
+ *
  * @param image Input 8-bit 3-channel image.
  * @param markers Input/output 32-bit single-channel image (map) of markers. It
  * should have the same size as <code>image</code>.
@@ -9329,6 +9786,11 @@ public class Imgproc {
     // C++:  void accumulateWeighted(Mat src, Mat& dst, double alpha, Mat mask = Mat())
     private static native void accumulateWeighted_0(long src_nativeObj, long dst_nativeObj, double alpha, long mask_nativeObj);
     private static native void accumulateWeighted_1(long src_nativeObj, long dst_nativeObj, double alpha);
+
+    // C++:  void adaptiveBilateralFilter(Mat src, Mat& dst, Size ksize, double sigmaSpace, double maxSigmaColor = 20.0, Point anchor = Point(-1, -1), int borderType = BORDER_DEFAULT)
+    private static native void adaptiveBilateralFilter_0(long src_nativeObj, long dst_nativeObj, double ksize_width, double ksize_height, double sigmaSpace, double maxSigmaColor, double anchor_x, double anchor_y, int borderType);
+    private static native void adaptiveBilateralFilter_1(long src_nativeObj, long dst_nativeObj, double ksize_width, double ksize_height, double sigmaSpace, double maxSigmaColor, double anchor_x, double anchor_y);
+    private static native void adaptiveBilateralFilter_2(long src_nativeObj, long dst_nativeObj, double ksize_width, double ksize_height, double sigmaSpace);
 
     // C++:  void adaptiveThreshold(Mat src, Mat& dst, double maxValue, int adaptiveMethod, int thresholdType, int blockSize, double C)
     private static native void adaptiveThreshold_0(long src_nativeObj, long dst_nativeObj, double maxValue, int adaptiveMethod, int thresholdType, int blockSize, double C);

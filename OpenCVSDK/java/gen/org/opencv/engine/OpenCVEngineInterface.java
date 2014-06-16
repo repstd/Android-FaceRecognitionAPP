@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: D:\\MyProject\\WorkSpace\\OpenCVSDK\\java\\src\\org\\opencv\\engine\\OpenCVEngineInterface.aidl
+ * Original file: D:\\MyProject\\GitHub\\apps\\iFaceRecognition_v.2.0\\OpenCVSDK\\java\\src\\org\\opencv\\engine\\OpenCVEngineInterface.aidl
  */
 package org.opencv.engine;
 /**

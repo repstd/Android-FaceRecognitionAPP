@@ -129,8 +129,9 @@ public class CvBoost extends CvStatModel {
  * <code>CvDTreeParams.use_surrogates</code>).
  * @param slice Continuous subset of the sequence of weak classifiers to be used
  * for prediction. By default, all the weak classifiers are used.
- * @param rawMode a rawMode
- * @param returnSum a returnSum
+ * @param rawMode Normally, it should be set to <code>false</code>.
+ * @param returnSum If <code>true</code> then return sum of votes instead of the
+ * class label.
  *
  * @see <a href="http://docs.opencv.org/modules/ml/doc/boosting.html#cvboost-predict">org.opencv.ml.CvBoost.predict</a>
  */

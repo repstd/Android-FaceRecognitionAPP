@@ -406,6 +406,12 @@ package org.opencv.core;
  * any STL algorithm, including <code>std.sort()</code>.
  * </code></p>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example demonstrating the serial out capabilities of cv.Mat can be
+ * found at opencv_source_code/samples/cpp/cout_mat.cpp
+ * </ul>
+ *
  * @see <a href="http://docs.opencv.org/modules/core/doc/basic_structures.html#mat">org.opencv.core.Mat</a>
  */
 public class Mat {
@@ -461,7 +467,7 @@ public class Mat {
  * @param cols Number of columns in a 2D array.
  * @param type Array type. Use <code>CV_8UC1,..., CV_64FC4</code> to create 1-4
  * channel matrices, or <code>CV_8UC(n),..., CV_64FC(n)</code> to create
- * multi-channel (up to <code>CV_MAX_CN</code> channels) matrices.
+ * multi-channel (up to <code>CV_CN_MAX</code> channels) matrices.
  *
  * @see <a href="http://docs.opencv.org/modules/core/doc/basic_structures.html#mat-mat">org.opencv.core.Mat.Mat</a>
  */
@@ -492,7 +498,7 @@ public class Mat {
  * go in the reverse order.
  * @param type Array type. Use <code>CV_8UC1,..., CV_64FC4</code> to create 1-4
  * channel matrices, or <code>CV_8UC(n),..., CV_64FC(n)</code> to create
- * multi-channel (up to <code>CV_MAX_CN</code> channels) matrices.
+ * multi-channel (up to <code>CV_CN_MAX</code> channels) matrices.
  *
  * @see <a href="http://docs.opencv.org/modules/core/doc/basic_structures.html#mat-mat">org.opencv.core.Mat.Mat</a>
  */
@@ -522,7 +528,7 @@ public class Mat {
  * @param cols Number of columns in a 2D array.
  * @param type Array type. Use <code>CV_8UC1,..., CV_64FC4</code> to create 1-4
  * channel matrices, or <code>CV_8UC(n),..., CV_64FC(n)</code> to create
- * multi-channel (up to <code>CV_MAX_CN</code> channels) matrices.
+ * multi-channel (up to <code>CV_CN_MAX</code> channels) matrices.
  * @param s An optional value to initialize each matrix element with. To set all
  * the matrix elements to the particular value after the construction, use the
  * assignment operator <code>Mat.operator=(const Scalar& value)</code>.
@@ -556,7 +562,7 @@ public class Mat {
  * go in the reverse order.
  * @param type Array type. Use <code>CV_8UC1,..., CV_64FC4</code> to create 1-4
  * channel matrices, or <code>CV_8UC(n),..., CV_64FC(n)</code> to create
- * multi-channel (up to <code>CV_MAX_CN</code> channels) matrices.
+ * multi-channel (up to <code>CV_CN_MAX</code> channels) matrices.
  * @param s An optional value to initialize each matrix element with. To set all
  * the matrix elements to the particular value after the construction, use the
  * assignment operator <code>Mat.operator=(const Scalar& value)</code>.
@@ -859,7 +865,7 @@ public class Mat {
     //
 
 /**
- * <p>Creates a matrix header for the specified row span.</p>
+ * <p>Creates a matrix header for the specified column span.</p>
  *
  * <p>The method makes a new header for the specified column span of the matrix.
  * Similarly to "Mat.row" and "Mat.col", this is an O(1) operation.</p>
@@ -882,7 +888,7 @@ public class Mat {
     //
 
 /**
- * <p>Creates a matrix header for the specified row span.</p>
+ * <p>Creates a matrix header for the specified column span.</p>
  *
  * <p>The method makes a new header for the specified column span of the matrix.
  * Similarly to "Mat.row" and "Mat.col", this is an O(1) operation.</p>
@@ -895,6 +901,18 @@ public class Mat {
     {
 
         Mat retVal = new Mat(n_colRange(nativeObj, r.start, r.end));
+
+        return retVal;
+    }
+
+    //
+    // C++: int Mat::dims()
+    //
+
+    public int dims()
+    {
+
+        int retVal = n_dims(nativeObj);
 
         return retVal;
     }
@@ -1227,9 +1245,9 @@ public class Mat {
  * <p>Returns the depth of a matrix element.</p>
  *
  * <p>The method returns the identifier of the matrix element depth (the type of
- * each individual channel). For example, for a 16-bit signed 3-channel array,
- * the method returns <code>CV_16S</code>. A complete list of matrix types
- * contains the following values:</p>
+ * each individual channel). For example, for a 16-bit signed element array, the
+ * method returns <code>CV_16S</code>. A complete list of matrix types contains
+ * the following values:</p>
  * <ul>
  *   <li> <code>CV_8U</code> - 8-bit unsigned integers (<code>0..255</code>)
  *   <li> <code>CV_8S</code> - 8-bit signed integers (<code>-128..127</code>)
@@ -1835,7 +1853,7 @@ public class Mat {
  * <code>elem</code> is <code>Mat</code>, its type and the number of columns
  * must be the same as in the container matrix.</p>
  *
- * @param m a m
+ * @param m Added line(s).
  *
  * @see <a href="http://docs.opencv.org/modules/core/doc/basic_structures.html#mat-push-back">org.opencv.core.Mat.push_back</a>
  */
@@ -2672,6 +2690,9 @@ public class Mat {
 
     // C++: Mat Mat::colRange(int startcol, int endcol)
     private static native long n_colRange(long nativeObj, int startcol, int endcol);
+
+    // C++: int Mat::dims()
+    private static native int n_dims(long nativeObj);
 
     // C++: int Mat::cols()
     private static native int n_cols(long nativeObj);

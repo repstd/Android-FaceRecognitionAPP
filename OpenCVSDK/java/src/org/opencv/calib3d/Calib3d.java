@@ -746,6 +746,52 @@ public class Calib3d {
 
 
     //
+    // C++:  void computeCorrespondEpilines(Mat points, int whichImage, Mat F, Mat& lines)
+    //
+
+/**
+ * <p>For points in an image of a stereo pair, computes the corresponding epilines
+ * in the other image.</p>
+ *
+ * <p>For every point in one of the two images of a stereo pair, the function finds
+ * the equation of the corresponding epipolar line in the other image.</p>
+ *
+ * <p>From the fundamental matrix definition (see "findFundamentalMat"), line
+ * <em>l^2_i</em> in the second image for the point <em>p^1_i</em> in the first
+ * image (when <code>whichImage=1</code>) is computed as:</p>
+ *
+ * <p><em>l^2_i = F p^1_i</em></p>
+ *
+ * <p>And vice versa, when <code>whichImage=2</code>, <em>l^1_i</em> is computed
+ * from <em>p^2_i</em> as:</p>
+ *
+ * <p><em>l^1_i = F^T p^2_i</em></p>
+ *
+ * <p>Line coefficients are defined up to a scale. They are normalized so that
+ * <em>a_i^2+b_i^2=1</em>.</p>
+ *
+ * @param points Input points. <em>N x 1</em> or <em>1 x N</em> matrix of type
+ * <code>CV_32FC2</code> or <code>vector<Point2f></code>.
+ * @param whichImage Index of the image (1 or 2) that contains the
+ * <code>points</code>.
+ * @param F Fundamental matrix that can be estimated using "findFundamentalMat"
+ * or "stereoRectify".
+ * @param lines Output vector of the epipolar lines corresponding to the points
+ * in the other image. Each line <em>ax + by + c=0</em> is encoded by 3 numbers
+ * <em>(a, b, c)</em>.
+ *
+ * @see <a href="http://docs.opencv.org/modules/calib3d/doc/camera_calibration_and_3d_reconstruction.html#computecorrespondepilines">org.opencv.calib3d.Calib3d.computeCorrespondEpilines</a>
+ */
+    public static void computeCorrespondEpilines(Mat points, int whichImage, Mat F, Mat lines)
+    {
+
+        computeCorrespondEpilines_0(points.nativeObj, whichImage, F.nativeObj, lines.nativeObj);
+
+        return;
+    }
+
+
+    //
     // C++:  void convertPointsFromHomogeneous(Mat src, Mat& dst)
     //
 
@@ -1487,6 +1533,12 @@ public class Calib3d {
  * Homography matrix is determined up to a scale. Thus, it is normalized so that
  * <em>h_33=1</em>.</p>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> A example on calculating a homography for image matching can be found
+ * at opencv_source_code/samples/cpp/video_homography.cpp
+ * </ul>
+ *
  * @param srcPoints Coordinates of the points in the original plane, a matrix of
  * the type <code>CV_32FC2</code> or <code>vector<Point2f></code>.
  * @param dstPoints Coordinates of the points in the target plane, a matrix of
@@ -1571,6 +1623,12 @@ public class Calib3d {
  * Homography matrix is determined up to a scale. Thus, it is normalized so that
  * <em>h_33=1</em>.</p>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> A example on calculating a homography for image matching can be found
+ * at opencv_source_code/samples/cpp/video_homography.cpp
+ * </ul>
+ *
  * @param srcPoints Coordinates of the points in the original plane, a matrix of
  * the type <code>CV_32FC2</code> or <code>vector<Point2f></code>.
  * @param dstPoints Coordinates of the points in the target plane, a matrix of
@@ -1652,6 +1710,12 @@ public class Calib3d {
  * <p>The function is used to find initial intrinsic and extrinsic matrices.
  * Homography matrix is determined up to a scale. Thus, it is normalized so that
  * <em>h_33=1</em>.</p>
+ *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> A example on calculating a homography for image matching can be found
+ * at opencv_source_code/samples/cpp/video_homography.cpp
+ * </ul>
  *
  * @param srcPoints Coordinates of the points in the original plane, a matrix of
  * the type <code>CV_32FC2</code> or <code>vector<Point2f></code>.
@@ -2117,6 +2181,12 @@ public class Calib3d {
  * corresponding image projections, as well as the camera matrix and the
  * distortion coefficients.</p>
  *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example of how to use solvePNP for planar augmented reality can be
+ * found at opencv_source_code/samples/python2/plane_ar.py
+ * </ul>
+ *
  * @param objectPoints Array of object points in the object coordinate space,
  * 3xN/Nx3 1-channel or 1xN/Nx1 3-channel, where N is the number of points.
  * <code>vector<Point3f></code> can be also passed here.
@@ -2173,6 +2243,12 @@ public class Calib3d {
  * <p>The function estimates the object pose given a set of object points, their
  * corresponding image projections, as well as the camera matrix and the
  * distortion coefficients.</p>
+ *
+ * <p>Note:</p>
+ * <ul>
+ *   <li> An example of how to use solvePNP for planar augmented reality can be
+ * found at opencv_source_code/samples/python2/plane_ar.py
+ * </ul>
  *
  * @param objectPoints Array of object points in the object coordinate space,
  * 3xN/Nx3 1-channel or 1xN/Nx1 3-channel, where N is the number of points.
@@ -2911,6 +2987,9 @@ public class Calib3d {
     // C++:  void composeRT(Mat rvec1, Mat tvec1, Mat rvec2, Mat tvec2, Mat& rvec3, Mat& tvec3, Mat& dr3dr1 = Mat(), Mat& dr3dt1 = Mat(), Mat& dr3dr2 = Mat(), Mat& dr3dt2 = Mat(), Mat& dt3dr1 = Mat(), Mat& dt3dt1 = Mat(), Mat& dt3dr2 = Mat(), Mat& dt3dt2 = Mat())
     private static native void composeRT_0(long rvec1_nativeObj, long tvec1_nativeObj, long rvec2_nativeObj, long tvec2_nativeObj, long rvec3_nativeObj, long tvec3_nativeObj, long dr3dr1_nativeObj, long dr3dt1_nativeObj, long dr3dr2_nativeObj, long dr3dt2_nativeObj, long dt3dr1_nativeObj, long dt3dt1_nativeObj, long dt3dr2_nativeObj, long dt3dt2_nativeObj);
     private static native void composeRT_1(long rvec1_nativeObj, long tvec1_nativeObj, long rvec2_nativeObj, long tvec2_nativeObj, long rvec3_nativeObj, long tvec3_nativeObj);
+
+    // C++:  void computeCorrespondEpilines(Mat points, int whichImage, Mat F, Mat& lines)
+    private static native void computeCorrespondEpilines_0(long points_nativeObj, int whichImage, long F_nativeObj, long lines_nativeObj);
 
     // C++:  void convertPointsFromHomogeneous(Mat src, Mat& dst)
     private static native void convertPointsFromHomogeneous_0(long src_nativeObj, long dst_nativeObj);

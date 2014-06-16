@@ -16,16 +16,15 @@
 #    If the module is found then OPENCV_<MODULE>_FOUND is set to TRUE.
 #
 #    This file will define the following variables:
-#      - OpenCV_LIBS                     : The list of libraries to links against.
-#      - OpenCV_LIB_DIR                  : The directory(es) where lib files are. Calling LINK_DIRECTORIES
-#                                          with this path is NOT needed.
+#      - OpenCV_LIBS                     : The list of all imported targets for OpenCV modules.
 #      - OpenCV_INCLUDE_DIRS             : The OpenCV include directories.
 #      - OpenCV_COMPUTE_CAPABILITIES     : The version of compute capability
 #      - OpenCV_ANDROID_NATIVE_API_LEVEL : Minimum required level of Android API
-#      - OpenCV_VERSION                  : The version of this OpenCV build. Example: "2.4.3.2"
-#      - OpenCV_VERSION_MAJOR            : Major version part of OpenCV_VERSION. Example: "2"
-#      - OpenCV_VERSION_MINOR            : Minor version part of OpenCV_VERSION. Example: "4"
-#      - OpenCV_VERSION_PATCH            : Patch version part of OpenCV_VERSION. Example: "3"
+#      - OpenCV_VERSION                  : The version of this OpenCV build: "2.4.8"
+#      - OpenCV_VERSION_MAJOR            : Major version part of OpenCV_VERSION: "2"
+#      - OpenCV_VERSION_MINOR            : Minor version part of OpenCV_VERSION: "4"
+#      - OpenCV_VERSION_PATCH            : Patch version part of OpenCV_VERSION: "8"
+#      - OpenCV_VERSION_TWEAK            : Tweak version part of OpenCV_VERSION: "0"
 #
 #    Advanced variables:
 #      - OpenCV_SHARED
@@ -37,12 +36,24 @@
 #
 # ===================================================================================
 
+set(modules_file_suffix "")
+if(ANDROID)
+  string(REPLACE - _ modules_file_suffix "_${ANDROID_NDK_ABI_NAME}")
+endif()
+
+if(NOT TARGET opencv_core)
+  include(${CMAKE_CURRENT_LIST_DIR}/OpenCVModules${modules_file_suffix}.cmake)
+endif()
+
+# TODO All things below should be reviewed. What is about of moving this code into related modules (special vars/hooks/files)
+
 # Version Compute Capability from which OpenCV has been compiled is remembered
 set(OpenCV_COMPUTE_CAPABILITIES "")
 
 set(OpenCV_CUDA_VERSION )
-set(OpenCV_USE_CUBLAS )
-set(OpenCV_USE_CUFFT  )
+set(OpenCV_USE_CUBLAS   )
+set(OpenCV_USE_CUFFT    )
+set(OpenCV_USE_NVCUVID  )
 
 # Android API level from which OpenCV has been compiled is remembered
 set(OpenCV_ANDROID_NATIVE_API_LEVEL 8)
@@ -86,161 +97,26 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 # ======================================================
 
 # Provide the libs directories to the caller
-set(OpenCV_LIB_DIR_OPT "${OpenCV_INSTALL_PATH}/sdk/native/libs/armeabi-v7a" CACHE PATH "Path where release OpenCV libraries are located")
-set(OpenCV_LIB_DIR_DBG "${OpenCV_INSTALL_PATH}/sdk/native/libs/armeabi-v7a" CACHE PATH "Path where debug OpenCV libraries are located")
-set(OpenCV_3RDPARTY_LIB_DIR_OPT "${OpenCV_INSTALL_PATH}/sdk/native/3rdparty/libs/armeabi-v7a" CACHE PATH "Path where release 3rdpaty OpenCV dependencies are located")
-set(OpenCV_3RDPARTY_LIB_DIR_DBG "${OpenCV_INSTALL_PATH}/sdk/native/3rdparty/libs/armeabi-v7a" CACHE PATH "Path where debug 3rdpaty OpenCV dependencies are located")
+set(OpenCV_LIB_DIR_OPT  CACHE PATH "Path where release OpenCV libraries are located")
+set(OpenCV_LIB_DIR_DBG  CACHE PATH "Path where debug OpenCV libraries are located")
+set(OpenCV_3RDPARTY_LIB_DIR_OPT  CACHE PATH "Path where release 3rdpaty OpenCV dependencies are located")
+set(OpenCV_3RDPARTY_LIB_DIR_DBG  CACHE PATH "Path where debug 3rdpaty OpenCV dependencies are located")
 mark_as_advanced(FORCE OpenCV_LIB_DIR_OPT OpenCV_LIB_DIR_DBG OpenCV_3RDPARTY_LIB_DIR_OPT OpenCV_3RDPARTY_LIB_DIR_DBG OpenCV_CONFIG_PATH)
 
 # ======================================================
 #  Version variables:
 # ======================================================
-SET(OpenCV_VERSION 2.4.3.2)
+SET(OpenCV_VERSION 2.4.8)
 SET(OpenCV_VERSION_MAJOR  2)
 SET(OpenCV_VERSION_MINOR  4)
-SET(OpenCV_VERSION_PATCH  3)
+SET(OpenCV_VERSION_PATCH  8)
+SET(OpenCV_VERSION_TWEAK  0)
 
 # ====================================================================
-# Link libraries: e.g.   libopencv_core.so, opencv_imgproc220d.lib, etc...
+# Link libraries: e.g. opencv_core;opencv_imgproc; etc...
 # ====================================================================
 
-SET(OpenCV_LIB_COMPONENTS opencv_core;opencv_imgproc;opencv_flann;opencv_androidcamera;opencv_highgui;opencv_features2d;opencv_video;opencv_photo;opencv_calib3d;opencv_videostab;opencv_ts;opencv_objdetect;opencv_stitching;opencv_ml;opencv_legacy;opencv_contrib)
-
-set(OpenCV_opencv_core_LIBNAME_OPT "libopencv_core.a")
-set(OpenCV_opencv_core_DEPS_OPT tbb)
-set(OpenCV_opencv_core_EXTRA_DEPS_OPT z;dl;m;log;c)
-set(OpenCV_opencv_imgproc_LIBNAME_OPT "libopencv_imgproc.a")
-set(OpenCV_opencv_imgproc_DEPS_OPT tbb;opencv_core)
-set(OpenCV_opencv_imgproc_EXTRA_DEPS_OPT z;dl;m;log;c)
-set(OpenCV_opencv_flann_LIBNAME_OPT "libopencv_flann.a")
-set(OpenCV_opencv_flann_DEPS_OPT tbb;opencv_core)
-set(OpenCV_opencv_flann_EXTRA_DEPS_OPT z;dl;m;log;c)
-set(OpenCV_opencv_androidcamera_LIBNAME_OPT "libopencv_androidcamera.a")
-set(OpenCV_opencv_androidcamera_DEPS_OPT tbb;opencv_core)
-set(OpenCV_opencv_androidcamera_EXTRA_DEPS_OPT z;dl;m;log;c)
-set(OpenCV_opencv_highgui_LIBNAME_OPT "libopencv_highgui.a")
-set(OpenCV_opencv_highgui_DEPS_OPT tbb;opencv_core;opencv_imgproc;opencv_androidcamera;libjpeg;libpng;libtiff;libjasper;IlmImf)
-set(OpenCV_opencv_highgui_EXTRA_DEPS_OPT z;dl;m;log;c)
-set(OpenCV_opencv_features2d_LIBNAME_OPT "libopencv_features2d.a")
-set(OpenCV_opencv_features2d_DEPS_OPT tbb;opencv_core;opencv_imgproc;opencv_flann;opencv_androidcamera;libjpeg;libpng;libtiff;libjasper;IlmImf;opencv_highgui)
-set(OpenCV_opencv_features2d_EXTRA_DEPS_OPT z;dl;m;log;c)
-set(OpenCV_opencv_video_LIBNAME_OPT "libopencv_video.a")
-set(OpenCV_opencv_video_DEPS_OPT tbb;opencv_core;opencv_imgproc)
-set(OpenCV_opencv_video_EXTRA_DEPS_OPT z;dl;m;log;c)
-set(OpenCV_opencv_photo_LIBNAME_OPT "libopencv_photo.a")
-set(OpenCV_opencv_photo_DEPS_OPT tbb;opencv_core;opencv_imgproc)
-set(OpenCV_opencv_photo_EXTRA_DEPS_OPT z;dl;m;log;c)
-set(OpenCV_opencv_calib3d_LIBNAME_OPT "libopencv_calib3d.a")
-set(OpenCV_opencv_calib3d_DEPS_OPT tbb;opencv_core;opencv_imgproc;opencv_flann;opencv_androidcamera;libjpeg;libpng;libtiff;libjasper;IlmImf;opencv_highgui;opencv_features2d)
-set(OpenCV_opencv_calib3d_EXTRA_DEPS_OPT z;dl;m;log;c)
-set(OpenCV_opencv_videostab_LIBNAME_OPT "libopencv_videostab.a")
-set(OpenCV_opencv_videostab_DEPS_OPT tbb;opencv_core;opencv_imgproc;opencv_flann;opencv_androidcamera;libjpeg;libpng;libtiff;libjasper;IlmImf;opencv_highgui;opencv_features2d;opencv_video;opencv_photo;opencv_calib3d)
-set(OpenCV_opencv_videostab_EXTRA_DEPS_OPT z;dl;m;log;c)
-set(OpenCV_opencv_ts_LIBNAME_OPT "libopencv_ts.a")
-set(OpenCV_opencv_ts_DEPS_OPT tbb;opencv_core;opencv_imgproc;opencv_flann;opencv_androidcamera;libjpeg;libpng;libtiff;libjasper;IlmImf;opencv_highgui;opencv_features2d)
-set(OpenCV_opencv_ts_EXTRA_DEPS_OPT z;dl;m;log;c)
-set(OpenCV_opencv_objdetect_LIBNAME_OPT "libopencv_objdetect.a")
-set(OpenCV_opencv_objdetect_DEPS_OPT tbb;opencv_core;opencv_imgproc;opencv_androidcamera;libjpeg;libpng;libtiff;libjasper;IlmImf;opencv_highgui)
-set(OpenCV_opencv_objdetect_EXTRA_DEPS_OPT z;dl;m;log;c)
-set(OpenCV_opencv_stitching_LIBNAME_OPT "libopencv_stitching.a")
-set(OpenCV_opencv_stitching_DEPS_OPT tbb;opencv_core;opencv_imgproc;opencv_flann;opencv_androidcamera;libjpeg;libpng;libtiff;libjasper;IlmImf;opencv_highgui;opencv_features2d;opencv_calib3d;opencv_objdetect)
-set(OpenCV_opencv_stitching_EXTRA_DEPS_OPT z;dl;m;log;c)
-set(OpenCV_opencv_ml_LIBNAME_OPT "libopencv_ml.a")
-set(OpenCV_opencv_ml_DEPS_OPT tbb;opencv_core)
-set(OpenCV_opencv_ml_EXTRA_DEPS_OPT z;dl;m;log;c)
-set(OpenCV_opencv_legacy_LIBNAME_OPT "libopencv_legacy.a")
-set(OpenCV_opencv_legacy_DEPS_OPT tbb;opencv_core;opencv_imgproc;opencv_flann;opencv_androidcamera;libjpeg;libpng;libtiff;libjasper;IlmImf;opencv_highgui;opencv_features2d;opencv_calib3d;opencv_video;opencv_ml)
-set(OpenCV_opencv_legacy_EXTRA_DEPS_OPT z;dl;m;log;c)
-set(OpenCV_opencv_contrib_LIBNAME_OPT "libopencv_contrib.a")
-set(OpenCV_opencv_contrib_DEPS_OPT tbb;opencv_core;opencv_imgproc;opencv_flann;opencv_androidcamera;libjpeg;libpng;libtiff;libjasper;IlmImf;opencv_highgui;opencv_features2d;opencv_calib3d;opencv_ml;opencv_video;opencv_objdetect)
-set(OpenCV_opencv_contrib_EXTRA_DEPS_OPT z;dl;m;log;c)
-set(OpenCV_tbb_LIBNAME_OPT "libtbb.a")
-set(OpenCV_tbb_DEPS_OPT )
-set(OpenCV_tbb_EXTRA_DEPS_OPT )
-set(OpenCV_libjpeg_LIBNAME_OPT "liblibjpeg.a")
-set(OpenCV_libjpeg_DEPS_OPT )
-set(OpenCV_libjpeg_EXTRA_DEPS_OPT )
-set(OpenCV_libpng_LIBNAME_OPT "liblibpng.a")
-set(OpenCV_libpng_DEPS_OPT )
-set(OpenCV_libpng_EXTRA_DEPS_OPT )
-set(OpenCV_libtiff_LIBNAME_OPT "liblibtiff.a")
-set(OpenCV_libtiff_DEPS_OPT )
-set(OpenCV_libtiff_EXTRA_DEPS_OPT )
-set(OpenCV_libjasper_LIBNAME_OPT "liblibjasper.a")
-set(OpenCV_libjasper_DEPS_OPT )
-set(OpenCV_libjasper_EXTRA_DEPS_OPT )
-set(OpenCV_IlmImf_LIBNAME_OPT "libIlmImf.a")
-set(OpenCV_IlmImf_DEPS_OPT )
-set(OpenCV_IlmImf_EXTRA_DEPS_OPT )
-
-
-set(OpenCV_opencv_core_LIBNAME_DBG "libopencv_core.a")
-set(OpenCV_opencv_core_DEPS_DBG tbb)
-set(OpenCV_opencv_core_EXTRA_DEPS_DBG z;dl;m;log;c)
-set(OpenCV_opencv_imgproc_LIBNAME_DBG "libopencv_imgproc.a")
-set(OpenCV_opencv_imgproc_DEPS_DBG tbb;opencv_core)
-set(OpenCV_opencv_imgproc_EXTRA_DEPS_DBG z;dl;m;log;c)
-set(OpenCV_opencv_flann_LIBNAME_DBG "libopencv_flann.a")
-set(OpenCV_opencv_flann_DEPS_DBG tbb;opencv_core)
-set(OpenCV_opencv_flann_EXTRA_DEPS_DBG z;dl;m;log;c)
-set(OpenCV_opencv_androidcamera_LIBNAME_DBG "libopencv_androidcamera.a")
-set(OpenCV_opencv_androidcamera_DEPS_DBG tbb;opencv_core)
-set(OpenCV_opencv_androidcamera_EXTRA_DEPS_DBG z;dl;m;log;c)
-set(OpenCV_opencv_highgui_LIBNAME_DBG "libopencv_highgui.a")
-set(OpenCV_opencv_highgui_DEPS_DBG tbb;opencv_core;opencv_imgproc;opencv_androidcamera;libjpeg;libpng;libtiff;libjasper;IlmImf)
-set(OpenCV_opencv_highgui_EXTRA_DEPS_DBG z;dl;m;log;c)
-set(OpenCV_opencv_features2d_LIBNAME_DBG "libopencv_features2d.a")
-set(OpenCV_opencv_features2d_DEPS_DBG tbb;opencv_core;opencv_imgproc;opencv_flann;opencv_androidcamera;libjpeg;libpng;libtiff;libjasper;IlmImf;opencv_highgui)
-set(OpenCV_opencv_features2d_EXTRA_DEPS_DBG z;dl;m;log;c)
-set(OpenCV_opencv_video_LIBNAME_DBG "libopencv_video.a")
-set(OpenCV_opencv_video_DEPS_DBG tbb;opencv_core;opencv_imgproc)
-set(OpenCV_opencv_video_EXTRA_DEPS_DBG z;dl;m;log;c)
-set(OpenCV_opencv_photo_LIBNAME_DBG "libopencv_photo.a")
-set(OpenCV_opencv_photo_DEPS_DBG tbb;opencv_core;opencv_imgproc)
-set(OpenCV_opencv_photo_EXTRA_DEPS_DBG z;dl;m;log;c)
-set(OpenCV_opencv_calib3d_LIBNAME_DBG "libopencv_calib3d.a")
-set(OpenCV_opencv_calib3d_DEPS_DBG tbb;opencv_core;opencv_imgproc;opencv_flann;opencv_androidcamera;libjpeg;libpng;libtiff;libjasper;IlmImf;opencv_highgui;opencv_features2d)
-set(OpenCV_opencv_calib3d_EXTRA_DEPS_DBG z;dl;m;log;c)
-set(OpenCV_opencv_videostab_LIBNAME_DBG "libopencv_videostab.a")
-set(OpenCV_opencv_videostab_DEPS_DBG tbb;opencv_core;opencv_imgproc;opencv_flann;opencv_androidcamera;libjpeg;libpng;libtiff;libjasper;IlmImf;opencv_highgui;opencv_features2d;opencv_video;opencv_photo;opencv_calib3d)
-set(OpenCV_opencv_videostab_EXTRA_DEPS_DBG z;dl;m;log;c)
-set(OpenCV_opencv_ts_LIBNAME_DBG "libopencv_ts.a")
-set(OpenCV_opencv_ts_DEPS_DBG tbb;opencv_core;opencv_imgproc;opencv_flann;opencv_androidcamera;libjpeg;libpng;libtiff;libjasper;IlmImf;opencv_highgui;opencv_features2d)
-set(OpenCV_opencv_ts_EXTRA_DEPS_DBG z;dl;m;log;c)
-set(OpenCV_opencv_objdetect_LIBNAME_DBG "libopencv_objdetect.a")
-set(OpenCV_opencv_objdetect_DEPS_DBG tbb;opencv_core;opencv_imgproc;opencv_androidcamera;libjpeg;libpng;libtiff;libjasper;IlmImf;opencv_highgui)
-set(OpenCV_opencv_objdetect_EXTRA_DEPS_DBG z;dl;m;log;c)
-set(OpenCV_opencv_stitching_LIBNAME_DBG "libopencv_stitching.a")
-set(OpenCV_opencv_stitching_DEPS_DBG tbb;opencv_core;opencv_imgproc;opencv_flann;opencv_androidcamera;libjpeg;libpng;libtiff;libjasper;IlmImf;opencv_highgui;opencv_features2d;opencv_calib3d;opencv_objdetect)
-set(OpenCV_opencv_stitching_EXTRA_DEPS_DBG z;dl;m;log;c)
-set(OpenCV_opencv_ml_LIBNAME_DBG "libopencv_ml.a")
-set(OpenCV_opencv_ml_DEPS_DBG tbb;opencv_core)
-set(OpenCV_opencv_ml_EXTRA_DEPS_DBG z;dl;m;log;c)
-set(OpenCV_opencv_legacy_LIBNAME_DBG "libopencv_legacy.a")
-set(OpenCV_opencv_legacy_DEPS_DBG tbb;opencv_core;opencv_imgproc;opencv_flann;opencv_androidcamera;libjpeg;libpng;libtiff;libjasper;IlmImf;opencv_highgui;opencv_features2d;opencv_calib3d;opencv_video;opencv_ml)
-set(OpenCV_opencv_legacy_EXTRA_DEPS_DBG z;dl;m;log;c)
-set(OpenCV_opencv_contrib_LIBNAME_DBG "libopencv_contrib.a")
-set(OpenCV_opencv_contrib_DEPS_DBG tbb;opencv_core;opencv_imgproc;opencv_flann;opencv_androidcamera;libjpeg;libpng;libtiff;libjasper;IlmImf;opencv_highgui;opencv_features2d;opencv_calib3d;opencv_ml;opencv_video;opencv_objdetect)
-set(OpenCV_opencv_contrib_EXTRA_DEPS_DBG z;dl;m;log;c)
-set(OpenCV_tbb_LIBNAME_DBG "libtbb.a")
-set(OpenCV_tbb_DEPS_DBG )
-set(OpenCV_tbb_EXTRA_DEPS_DBG )
-set(OpenCV_libjpeg_LIBNAME_DBG "liblibjpeg.a")
-set(OpenCV_libjpeg_DEPS_DBG )
-set(OpenCV_libjpeg_EXTRA_DEPS_DBG )
-set(OpenCV_libpng_LIBNAME_DBG "liblibpng.a")
-set(OpenCV_libpng_DEPS_DBG )
-set(OpenCV_libpng_EXTRA_DEPS_DBG )
-set(OpenCV_libtiff_LIBNAME_DBG "liblibtiff.a")
-set(OpenCV_libtiff_DEPS_DBG )
-set(OpenCV_libtiff_EXTRA_DEPS_DBG )
-set(OpenCV_libjasper_LIBNAME_DBG "liblibjasper.a")
-set(OpenCV_libjasper_DEPS_DBG )
-set(OpenCV_libjasper_EXTRA_DEPS_DBG )
-set(OpenCV_IlmImf_LIBNAME_DBG "libIlmImf.a")
-set(OpenCV_IlmImf_DEPS_DBG )
-set(OpenCV_IlmImf_EXTRA_DEPS_DBG )
-
+SET(OpenCV_LIB_COMPONENTS opencv_core;opencv_androidcamera;opencv_flann;opencv_imgproc;opencv_highgui;opencv_features2d;opencv_calib3d;opencv_photo;opencv_video;opencv_videostab;opencv_ts;opencv_objdetect;opencv_stitching;opencv_ml;opencv_ocl;opencv_legacy;opencv_contrib;opencv_java)
 
 # ==============================================================
 #  Extra include directories, needed by OpenCV 2 new structure
@@ -280,6 +156,7 @@ endif()
 # ==============================================================
 if(NOT OpenCV_FIND_COMPONENTS)
   set(OpenCV_FIND_COMPONENTS ${OpenCV_LIB_COMPONENTS})
+  list(REMOVE_ITEM OpenCV_FIND_COMPONENTS opencv_java)
   if(GTest_FOUND OR GTEST_FOUND)
     list(REMOVE_ITEM OpenCV_FIND_COMPONENTS opencv_ts)
   endif()
@@ -304,6 +181,10 @@ foreach(__cvcomponent ${OpenCV_FIND_COMPONENTS})
     set(${__cvcomponent}_FOUND "${__cvcomponent}_FOUND-NOTFOUND")
   else()
     list(APPEND OpenCV_FIND_COMPONENTS_ ${__cvcomponent})
+    # Not using list(APPEND) here, because OpenCV_LIBS may not exist yet.
+    # Also not clearing OpenCV_LIBS anywhere, so that multiple calls
+    # to find_package(OpenCV) with different component lists add up.
+    set(OpenCV_LIBS ${OpenCV_LIBS} "${__cvcomponent}")
     #indicate that module is found
     string(TOUPPER "${__cvcomponent}" __cvcomponent)
     set(${__cvcomponent}_FOUND 1)
@@ -315,50 +196,35 @@ set(OpenCV_FIND_COMPONENTS ${OpenCV_FIND_COMPONENTS_})
 #  Resolve dependencies
 # ==============================================================
 if(OpenCV_USE_MANGLED_PATHS)
-  set(OpenCV_LIB_SUFFIX ".${OpenCV_VERSION}")
+  set(OpenCV_LIB_SUFFIX ".${OpenCV_VERSION_MAJOR}.${OpenCV_VERSION_MINOR}.${OpenCV_VERSION_PATCH}")
 else()
   set(OpenCV_LIB_SUFFIX "")
 endif()
 
 foreach(__opttype OPT DBG)
-  SET(OpenCV_LIBS_${__opttype} "")
+  SET(OpenCV_LIBS_${__opttype} "${OpenCV_LIBS}")
   SET(OpenCV_EXTRA_LIBS_${__opttype} "")
-  foreach(__cvlib ${OpenCV_FIND_COMPONENTS})
-    foreach(__cvdep ${OpenCV_${__cvlib}_DEPS_${__opttype}})
-      if(__cvdep MATCHES "^opencv_")
-        list(APPEND OpenCV_LIBS_${__opttype} "${OpenCV_LIB_DIR_${__opttype}}/${OpenCV_${__cvdep}_LIBNAME_${__opttype}}${OpenCV_LIB_SUFFIX}")
-        #indicate that this module is also found
-        string(TOUPPER "${__cvdep}" __cvdep)
-        set(${__cvdep}_FOUND 1)
-      else()
-        list(APPEND OpenCV_LIBS_${__opttype} "${OpenCV_3RDPARTY_LIB_DIR_${__opttype}}/${OpenCV_${__cvdep}_LIBNAME_${__opttype}}")
-      endif()
-    endforeach()
-    list(APPEND OpenCV_LIBS_${__opttype} "${OpenCV_LIB_DIR_${__opttype}}/${OpenCV_${__cvlib}_LIBNAME_${__opttype}}${OpenCV_LIB_SUFFIX}")
-    list(APPEND OpenCV_EXTRA_LIBS_${__opttype} ${OpenCV_${__cvlib}_EXTRA_DEPS_${__opttype}})
-  endforeach()
 
-  if(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} VERSION_GREATER 2.4)
-    if(OpenCV_LIBS_${__opttype})
-      list(REMOVE_DUPLICATES OpenCV_LIBS_${__opttype})
-    endif()
-    if(OpenCV_EXTRA_LIBS_${__opttype})
-      list(REMOVE_DUPLICATES OpenCV_EXTRA_LIBS_${__opttype})
-    endif()
-  else()
-    #TODO: duplicates are annoying but they should not be the problem
-  endif()
-  # fix hard coded paths for CUDA libraries under Windows
-  if(WIN32 AND OpenCV_CUDA_VERSION AND NOT OpenCV_SHARED)
+  # CUDA
+  if(OpenCV_CUDA_VERSION AND (CMAKE_CROSSCOMPILING OR (WIN32 AND NOT OpenCV_SHARED)))
     if(NOT CUDA_FOUND)
       find_package(CUDA ${OpenCV_CUDA_VERSION} EXACT REQUIRED)
     else()
       if(NOT CUDA_VERSION_STRING VERSION_EQUAL OpenCV_CUDA_VERSION)
-        message(FATAL_ERROR "OpenCV static library compiled with CUDA ${OpenCV_CUDA_VERSION} support. Please, use the same version or rebuild OpenCV with CUDA ${CUDA_VERSION_STRING}")
+        message(FATAL_ERROR "OpenCV static library was compiled with CUDA ${OpenCV_CUDA_VERSION} support. Please, use the same version or rebuild OpenCV with CUDA ${CUDA_VERSION_STRING}")
       endif()
     endif()
 
-    list(APPEND OpenCV_EXTRA_LIBS_${__opttype} ${CUDA_LIBRARIES} ${CUDA_npp_LIBRARY} ${CUDA_nvcuvid_LIBRARY} ${CUDA_nvcuvenc_LIBRARY})
+    list(APPEND OpenCV_EXTRA_LIBS_${__opttype} ${CUDA_LIBRARIES})
+
+    if(${CUDA_VERSION} VERSION_LESS "5.5")
+      list(APPEND OpenCV_EXTRA_LIBS_${__opttype} ${CUDA_npp_LIBRARY})
+    else()
+      find_cuda_helper_libs(nppc)
+      find_cuda_helper_libs(nppi)
+      find_cuda_helper_libs(npps)
+      list(APPEND OpenCV_EXTRA_LIBS_${__opttype} ${CUDA_nppc_LIBRARY} ${CUDA_nppi_LIBRARY} ${CUDA_npps_LIBRARY})
+    endif()
 
     if(OpenCV_USE_CUBLAS)
       list(APPEND OpenCV_EXTRA_LIBS_${__opttype} ${CUDA_CUBLAS_LIBRARIES})
@@ -368,35 +234,15 @@ foreach(__opttype OPT DBG)
       list(APPEND OpenCV_EXTRA_LIBS_${__opttype} ${CUDA_CUFFT_LIBRARIES})
     endif()
 
+    if(OpenCV_USE_NVCUVID)
+      list(APPEND OpenCV_EXTRA_LIBS_${__opttype} ${CUDA_nvcuvid_LIBRARIES})
+    endif()
+
+    if(WIN32)
+      list(APPEND OpenCV_EXTRA_LIBS_${__opttype} ${CUDA_nvcuvenc_LIBRARIES})
+    endif()
   endif()
 endforeach()
-
-if(OpenCV_LIBS_DBG)
-  list(REVERSE OpenCV_LIBS_DBG)
-endif()
-
-if(OpenCV_LIBS_OPT)
-  list(REVERSE OpenCV_LIBS_OPT)
-endif()
-
-# CMake>=2.6 supports the notation "debug XXd optimized XX"
-if(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} VERSION_GREATER 2.4)
-  # Modern CMake:
-  SET(OpenCV_LIBS "")
-  foreach(__cvlib ${OpenCV_LIBS_DBG} ${OpenCV_EXTRA_LIBS_DBG})
-    list(APPEND OpenCV_LIBS debug "${__cvlib}")
-  endforeach()
-  foreach(__cvlib ${OpenCV_LIBS_OPT} ${OpenCV_EXTRA_LIBS_OPT})
-    list(APPEND OpenCV_LIBS optimized "${__cvlib}")
-  endforeach()
-else()
-  # Old CMake:
-  if(CMAKE_BUILD_TYPE MATCHES "Debug")
-    SET(OpenCV_LIBS ${OpenCV_LIBS_DBG} ${OpenCV_EXTRA_LIBS_DBG})
-  else()
-    SET(OpenCV_LIBS ${OpenCV_LIBS_OPT} ${OpenCV_EXTRA_LIBS_OPT})
-  endif()
-endif()
 
 # ==============================================================
 #  Android camera helper macro
@@ -425,3 +271,54 @@ else()
   SET(OpenCV_LIB_DIR ${OpenCV_LIB_DIR_OPT} ${OpenCV_3RDPARTY_LIB_DIR_OPT})
 endif()
 set(OpenCV_LIBRARIES ${OpenCV_LIBS})
+
+if(CMAKE_CROSSCOMPILING AND OpenCV_SHARED AND (CMAKE_SYSTEM_NAME MATCHES "Linux"))
+  foreach(dir ${OpenCV_LIB_DIR})
+    set(CMAKE_EXE_LINKER_FLAGS    "${CMAKE_EXE_LINKER_FLAGS}    -Wl,-rpath-link,${dir}")
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-rpath-link,${dir}")
+    set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -Wl,-rpath-link,${dir}")
+  endforeach()
+endif()
+
+
+
+#
+# Some macroses for samples
+#
+macro(ocv_check_dependencies)
+  set(OCV_DEPENDENCIES_FOUND TRUE)
+  foreach(d ${ARGN})
+    if(NOT TARGET ${d})
+      set(OCV_DEPENDENCIES_FOUND FALSE)
+      break()
+    endif()
+  endforeach()
+endmacro()
+
+# adds include directories in such way that directories from the OpenCV source tree go first
+function(ocv_include_directories)
+  set(__add_before "")
+  file(TO_CMAKE_PATH "${OpenCV_DIR}" __baseDir)
+  foreach(dir ${ARGN})
+    get_filename_component(__abs_dir "${dir}" ABSOLUTE)
+    if("${__abs_dir}" MATCHES "^${__baseDir}")
+      list(APPEND __add_before "${dir}")
+    else()
+      include_directories(AFTER SYSTEM "${dir}")
+    endif()
+  endforeach()
+  include_directories(BEFORE ${__add_before})
+endfunction()
+
+macro(ocv_include_modules)
+  include_directories(BEFORE "${OpenCV_INCLUDE_DIRS}")
+endmacro()
+
+# remove all matching elements from the list
+macro(ocv_list_filterout lst regex)
+  foreach(item ${${lst}})
+    if(item MATCHES "${regex}")
+      list(REMOVE_ITEM ${lst} "${item}")
+    endif()
+  endforeach()
+endmacro()
